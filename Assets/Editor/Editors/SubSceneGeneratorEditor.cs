@@ -4,6 +4,7 @@ using UnityEngine;
 [CustomEditor(typeof(SubSceneGenerator))]
 public class WeatherAuthoringEditor : Editor
 {
+    private const string createRoadIcon = "Assets/Textures/ToolIcons/RoadPoint.png";
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -13,10 +14,11 @@ public class WeatherAuthoringEditor : Editor
 
         GUILayout.Space(40); 
 
-        if (GUILayout.Button("Generate Sub Scene"))
+
+        if (CustomEditorUtility.SingleLineButton("Generate Sub Scene",CustomEditorIcons.UnityLogo))
             generator.GenerateSubScene();
         
-        if (GUILayout.Button("Create Road Element"))
-            generator.CreateRoadElement();
+        if (CustomEditorUtility.SingleLineButton("Create Road Element",CustomEditorIcons.Add))
+            generator.CreateRoadElement(); 
     }
-}
+} 

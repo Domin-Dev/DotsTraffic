@@ -8,4 +8,5 @@ public static class TrafficTools
     {
         GameObject generator = new GameObject("TrafficGenerator",typeof(SubSceneGenerator));
     }
+
 }

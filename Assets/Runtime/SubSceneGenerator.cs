@@ -7,14 +7,23 @@ public class SubSceneGenerator : MonoBehaviour
 {
     [SerializeField] private string SubScenePath = "Assets/Scenes/TrafficSubScene.unity";
     public SubScene subScene;
-
+    public LayerMask surfaceLayer = 1 << 0;
+    
     #if UNITY_EDITOR
     public void CreateRoadElement()
     {
         var gameObject = new GameObject("RoadElement",typeof(RoadElement));
         gameObject.transform.SetParent(transform);
+
+        var roadElement = gameObject.GetComponent<RoadElement>();
+        roadElement.Points.Add(new RoadPoint(new Vector3(-1,0,0)));
+        roadElement.Points.Add(new RoadPoint(new Vector3(1,0,0)));
+
         Selection.activeGameObject = gameObject;
         EditorGUIUtility.PingObject(gameObject);
+        SceneView sceneView = SceneView.lastActiveSceneView;
+        if (sceneView != null)
+            sceneView.FrameSelected();  
     }
     public void GenerateSubScene()
     {
@@ -34,6 +43,7 @@ public class SubSceneGenerator : MonoBehaviour
         else
             EditorSceneManager.CloseScene(scene,true);
     }
+
     #endif
 }
 
