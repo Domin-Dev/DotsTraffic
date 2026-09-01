@@ -14,6 +14,7 @@ public class RoadElementEditor : Editor
     public static event Action<RoadPoint> OnSelectionChanged;
     public static event Action<RoadElement> OnTargetChanged;
     private static bool showHandle = true;
+    private static bool showEditButtons = false;
     private static RoadPoint selectedPoint;
     private RoadElement road;
 
@@ -23,10 +24,18 @@ public class RoadElementEditor : Editor
         road = (RoadElement)target;
         OnTargetChanged?.Invoke(road);
         EditorWindow.windowFocusChanged += FocusChanged;
+
+        RoadPointTools.OnChangePosition += ChangePosition;
+        RoadPointTools.OnClickDeleteButton += DeletePoint;
+        RoadPointTools.OnClickDuplicateButton += DuplicatePoint;
     }
     private void OnDisable()
     {
         EditorWindow.windowFocusChanged -= FocusChanged;
+
+        RoadPointTools.OnChangePosition -= ChangePosition;
+        RoadPointTools.OnClickDeleteButton -= DeletePoint;
+        RoadPointTools.OnClickDuplicateButton -= DuplicatePoint;
     }
     private void FocusChanged()
     {
@@ -43,49 +52,58 @@ public class RoadElementEditor : Editor
     public override void OnInspectorGUI()
     {        
         RoadElement road = (RoadElement)target;
-        bool newValue = EditorGUILayout.Toggle("Show Position Handle", showHandle);
-        if(newValue != showHandle)
-        {
-            showHandle = newValue;
-            SceneView.RepaintAll();
-        }
-
+        EditorOptions();
         EditorGUILayout.BeginHorizontal();
         
         if (CustomEditorUtility.SingleLineButton("One-way",CustomEditorIcons.UpArrow))
-        {
-            Undo.RecordObject(road, "One-way");
-            road.ChangeToOneWayRoad(); 
-            EditorUtility.SetDirty(road); 
-        }
-
-        if (CustomEditorUtility.SingleLineButton("Change Direction",CustomEditorIcons.ChangeDirection))
-        {
-            Undo.RecordObject(road, "Change Direction");
-            road.ChangeDirection(); 
-            EditorUtility.SetDirty(road); 
-        }      
+            RecordAction(road,"One-way",road.ChangeToOneWayRoad);
         
+        if (CustomEditorUtility.SingleLineButton("Change Direction",CustomEditorIcons.ChangeDirection))
+            RecordAction(road,"Change Direction",road.ChangeDirection);
+ 
         if (CustomEditorUtility.SingleLineButton("Project to Surface",CustomEditorIcons.ProjectToSurface))
-        {
-            Undo.RecordObject(road, "Project to Surface");
-            road.ProjectToSurface();
-            EditorUtility.SetDirty(road);
-        }
+            RecordAction(road,"Project to Surface",road.ProjectToSurface);
+        
 
         EditorGUILayout.EndHorizontal();
         DrawPropertiesExcluding(serializedObject);
 
         if (CustomEditorUtility.SingleLineButton("Add Point",CustomEditorIcons.Add))
-        {
-            Undo.RecordObject(road, "Add Road Point");
-            road.Points.Add(new RoadPoint(road.transform.InverseTransformPoint(road.transform.position + new Vector3(0,0,0.5f))));
-            EditorUtility.SetDirty(road);
-        }
+            RecordAction(road,"Add road point",road.AddPoint);
 
         serializedObject.ApplyModifiedProperties();
     }
    
+    private void EditorOptions()
+    {
+        EditorGUILayout.BeginHorizontal();
+        GUIStyle toggleButton = new GUIStyle(GUI.skin.button);
+
+        showEditButtons = Toggle(toggleButton,"Show Edit Buttons",showEditButtons);
+        showHandle = Toggle(toggleButton,"Show Position Handle",showHandle);
+
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Separator();
+        EditorGUILayout.Separator();
+    }
+
+    private bool Toggle(GUIStyle toggleButton,string text,bool currentValue)
+    {
+        bool newValue = GUILayout.Toggle(currentValue,text, toggleButton);
+        if(newValue != currentValue)
+        {
+            currentValue = newValue;
+            SceneView.RepaintAll();
+        }    
+        return currentValue;
+    }
+
+
+
+
+
+
+
     private void Events()
     {
         Event e = Event.current;
@@ -93,12 +111,14 @@ public class RoadElementEditor : Editor
         {
             switch(e.commandName)
             {
+                case "Cut":
                 case "SoftDelete" : 
-                    DeletePoint(selectedPoint);
+                    DeletePoint();
                     e.Use();
                     break;
+                case "Paste":
                 case "Duplicate" :
-                    DuplicatePoint(selectedPoint);
+                    DuplicatePoint();
                     e.Use();
                     break;
             }
@@ -171,25 +191,7 @@ public class RoadElementEditor : Editor
             Handles.DrawLine(a + startMedianOffset + road.ForwardRoadwayWidth * startOffset,b + endMedianOffset  + road.ForwardRoadwayWidth * endOffset);
             Handles.DrawLine(a - startMedianOffset - road.BackwardRoadwayWidth * startOffset,b - endMedianOffset  - road.BackwardRoadwayWidth * endOffset);
 
-
-            Handles.BeginGUI();
-            Vector2 guiPosition = HandleUtility.WorldToGUIPoint(middle);
-            GUIStyle style = new GUIStyle(GUI.skin.button)
-            {
-                fontSize = 14,
-                fontStyle = FontStyle.Bold
-            };
-            
-            if (GUI.Button(new Rect(guiPosition.x - 12, guiPosition.y - 12, 24, 24),"+",style))
-            {
-                Undo.RecordObject(road,"Add Road Point");
-                Vector3 localPoint = road.transform.InverseTransformPoint(middle);
-                road.Points.Insert( i + 1, new RoadPoint(localPoint));
-                EditorUtility.SetDirty(road);
-                GUI.changed = true;
-            }
-            Handles.EndGUI();
-
+            ShowEditButtons(i,middle);
             
             PrintArrows(road,a,nextNodeDirection,previousNodePosition - a,startOffset,startMedianOffset);
             previousNodePosition = a;
@@ -198,6 +200,26 @@ public class RoadElementEditor : Editor
         Vector3 last = road.transform.TransformPoint(road.Points[road.Points.Count -1].Position);
         Vector3 offset = Vector3.Cross(Vector3.up,last - previousNodePosition).normalized;
         PrintArrows(road,last,-(previousNodePosition - last),previousNodePosition - last,offset,offset * road.HalfMedianStripWidth);
+    }
+    private void ShowEditButtons(int currentIndexPoint,Vector3 middlePoint)
+    {
+        if(showEditButtons)
+        {         
+            Handles.BeginGUI(); 
+            Vector2 guiPosition = HandleUtility.WorldToGUIPoint(middlePoint);
+            GUIStyle style = new GUIStyle(GUI.skin.button)
+            {
+                fontSize = 14,
+                fontStyle = FontStyle.Bold
+            };
+            
+            if (GUI.Button(new Rect(guiPosition.x - 12, guiPosition.y - 12, 24, 24),"+",style))
+            {
+                Vector3 localPoint = road.transform.InverseTransformPoint(middlePoint);
+                RecordAction(road,"Add road point",() => {road.Points.Insert(currentIndexPoint + 1, new RoadPoint(localPoint));});
+            }
+            Handles.EndGUI();
+        }
     }
     private void PrintArrows(RoadElement road,Vector3 nodePosition,Vector3 nextNodeDir,Vector3 previousNodeDir,Vector3 offsetDirection,Vector3 medianOffset)
     {
@@ -226,12 +248,7 @@ public class RoadElementEditor : Editor
                 EditorGUI.BeginChangeCheck();
                 Vector3 newWorldPoint = Handles.PositionHandle(worldPoint,roadPoint.Rotation); 
                 if (EditorGUI.EndChangeCheck())
-                {
-                    Undo.RecordObject(road, "Move Road Point");
-                    roadPoint.Position = road.transform.InverseTransformPoint(newWorldPoint);
-                    OnSelectionChanged?.Invoke(roadPoint);
-                    EditorUtility.SetDirty(road);
-                }
+                    ChangePosition(road.transform.InverseTransformPoint(newWorldPoint));
             }
             else
             {
@@ -269,33 +286,44 @@ public class RoadElementEditor : Editor
         return true;
     }
 
+
+    private void ChangePosition(RoadPoint roadPoint,Vector3 newPosition)
+    {
+        RecordAction(road,"Move road point",() =>
+        { 
+            if(roadPoint != null)
+                roadPoint.Position = newPosition;
+        });
+        if(selectedPoint == roadPoint)
+            OnSelectionChanged?.Invoke(selectedPoint);   
+
+    }
+    private void ChangePosition(Vector3 newPosition)
+    {
+        ChangePosition(selectedPoint,newPosition);
+    }
     private void DeletePoint(RoadPoint roadPoint)
     {
-        if(road.Points.Contains(roadPoint))
-        {
-            Undo.RecordObject(road, "Delete Point");
-            road.Points.Remove(roadPoint);
-            EditorUtility.SetDirty(road);
-        }
-    }   
+        if(selectedPoint == roadPoint)
+            Deselect();
+        RecordAction(road,"Delete Point",() => road.DeletePoint(roadPoint));
+    }  
+    private void DeletePoint()
+    {     
+        DeletePoint(selectedPoint);
+    } 
     private void DuplicatePoint(RoadPoint roadPoint)
     {
-        int index = road.Points.IndexOf(roadPoint);
-        if(index >= 0)
-        {   
-            Undo.RecordObject(road, "Duplicate Point");
-            var newPoint = new RoadPoint(roadPoint);
-            if(road.Points.Count == index + 1)
-            {
-                if(road.Points.Count == 1)
-                    newPoint.Position += new Vector3(0,0,1);
-                else
-                    newPoint.Position += (roadPoint.Position - road.Points[index - 1].Position).normalized;
-            }
-            else
-                newPoint.Position += (road.Points[index + 1].Position - roadPoint.Position).normalized;
-            road.Points.Insert(index + 1,newPoint);
-            EditorUtility.SetDirty(road);
-        }
+        RecordAction(road,"Duplicate Point",() => road.DuplicatePoint(roadPoint));
+    }
+    private void DuplicatePoint()
+    {
+        DuplicatePoint(selectedPoint);
+    }
+    private void RecordAction(RoadElement roadElement,string actionName, Action action)
+    {
+        Undo.RecordObject(roadElement, actionName);
+        action();
+        EditorUtility.SetDirty(roadElement);
     }
 }

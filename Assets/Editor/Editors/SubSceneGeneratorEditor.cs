@@ -14,7 +14,6 @@ public class WeatherAuthoringEditor : Editor
 
         GUILayout.Space(40); 
 
-
         if (CustomEditorUtility.SingleLineButton("Generate Sub Scene",CustomEditorIcons.UnityLogo))
             generator.GenerateSubScene();
         

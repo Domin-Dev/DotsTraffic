@@ -228,196 +228,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &19528401
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 19528402}
-  - component: {fileID: 19528403}
-  m_Layer: 0
-  m_Name: RoadElement (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &19528402
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19528401}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.92, y: 1.89, z: 7.61}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &19528403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19528401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 6
-  BackwardLaneCount: 0
-  MedianStripWidth: 0
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: -9.776644, y: 0.38169992, z: -1.7470391}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -1.1468227, y: 0.38169992, z: -16.799726}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 6.344137, y: 0.38169992, z: -31.518538}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 7.279459, y: 0.38169992, z: -31.872335}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 21.334246, y: 0.38169992, z: -37.18874}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 41.63316, y: 0.38169992, z: -24.291069}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 39.02316, y: 0.38169992, z: -0.708117}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 23.426401, y: 0.38169992, z: 5.8612313}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 12.919974, y: 0.26781785, z: 6.905173}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 4.6042953, y: 0.38169992, z: 15.409061}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -7.717143, y: 0.38169992, z: 11.778885}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -17.192465, y: 0.38169992, z: 15.784519}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -30.944304, y: 0.38169992, z: 12.055855}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!1 &110757192
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 110757193}
-  - component: {fileID: 110757194}
-  m_Layer: 0
-  m_Name: RoadElement (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &110757193
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110757192}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.5, y: 0.564, z: -4.16}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &110757194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110757192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 3
-  BackwardLaneCount: 6
-  MedianStripWidth: 2.08
-  LaneWidth: 0.58
-  Points:
-  - Position: {x: -0.24, y: 0, z: 34.018997}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 19.904177, y: -14.6, z: -1.9845672}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -4.044443, y: -8.171151, z: -32.381176}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -21.2263, y: 10.11, z: -25.05642}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!1 &170296187
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 170296188}
-  - component: {fileID: 170296189}
-  m_Layer: 0
-  m_Name: RoadElement (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &170296188
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 170296187}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.17, y: -4.58, z: 7.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &170296189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 170296187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 1
-  BackwardLaneCount: 1
-  MedianStripWidth: 0.1
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: -2.8180294, y: 6.8517, z: 9.019026}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 22.11834, y: 6.8517, z: -3.6646135}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 14.261305, y: 14.905114, z: -25.556839}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,68 +365,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!1 &396379448
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 396379449}
-  - component: {fileID: 396379450}
-  m_Layer: 0
-  m_Name: RoadElement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &396379449
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 396379448}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.92, y: 1.89, z: 7.61}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &396379450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 396379448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 0
-  BackwardLaneCount: 3
-  MedianStripWidth: 0
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: 10.555357, y: 0.38169992, z: 29.83361}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 41.809994, y: 0.38169992, z: 33.920395}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 45.184994, y: -2.148292, z: 26.95385}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 45.54058, y: 0.24172683, z: 16.59885}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 31.053696, y: 0.38169992, z: -15.612524}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: -1.6003973, y: 0.38169992, z: -14.908508}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,168 +582,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 396379449}
-  - {fileID: 19528402}
-  - {fileID: 1542247518}
-  - {fileID: 1046644901}
-  - {fileID: 170296188}
-  - {fileID: 110757193}
+  - {fileID: 2007910315}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1046644900
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1046644901}
-  - component: {fileID: 1046644902}
-  m_Layer: 0
-  m_Name: RoadElement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1046644901
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1046644900}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.17, y: -4.58, z: 7.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1046644902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1046644900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 1
-  BackwardLaneCount: 1
-  MedianStripWidth: 0.1
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: -1.4470253, y: 5.2733326, z: 16.517138}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 6.4332376, y: 5.2714233, z: 17.967592}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 10.825599, y: 5.2601504, z: 14.023106}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 16.052776, y: 5.168988, z: 9.495946}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 29.12932, y: 2.6366663, z: -10.791285}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 5.643917, y: 0, z: -27.80993}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!1 &1542247517
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1542247518}
-  - component: {fileID: 1542247519}
-  m_Layer: 0
-  m_Name: RoadElement (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1542247518
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542247517}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.92, y: 1.89, z: 7.61}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1542247519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542247517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 2
-  BackwardLaneCount: 3
-  MedianStripWidth: 0
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: -79.37038, y: 0.38169992, z: -83.34541}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 6.344137, y: 0.38169992, z: -31.518538}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 22.32613, y: 0.38169992, z: -37.061604}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 23.428942, y: 0.38169992, z: -37.05979}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 24.419521, y: 0.38169992, z: -36.92286}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 25.4101, y: 0.38169992, z: -36.785927}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 25.4101, y: 0.38169992, z: -36.785927}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 25.4101, y: 0.38169992, z: -36.785927}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 25.4101, y: 0.38169992, z: -36.785927}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 37.30584, y: 0.38169992, z: -35.14154}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 36.4906, y: 0.38169992, z: -35.720665}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 43.871086, y: 0.38169992, z: -30.477785}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 42.572926, y: 0.38169992, z: -21.261774}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 43.90676, y: 0.38169992, z: -11.133331}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 39.72008, y: 0.38169992, z: -9.338451}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 39.72008, y: 0.38169992, z: -9.338451}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 32.82337, y: 0.38169992, z: -11.483927}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 33.033913, y: 0.38169992, z: -12.461512}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 31.5689, y: 0.38169992, z: -5.6592045}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 21.846779, y: 11.894904, z: 6.547541}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 10.837624, y: 0.38169992, z: 4.5144963}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &1706364839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,6 +638,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2007910314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2007910315}
+  - component: {fileID: 2007910316}
+  m_Layer: 0
+  m_Name: RoadElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2007910315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007910314}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 905866998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2007910316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007910314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Loop: 0
+  ForwardLaneCount: 1
+  BackwardLaneCount: 1
+  MedianStripWidth: 0.1
+  LaneWidth: 0.5
+  Points:
+  - Position: {x: -7.929083, y: 0.2606057, z: -3.7785082}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Position: {x: -7.244032, y: 0, z: 9.40152}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Position: {x: 14.520569, y: 0, z: 11.082115}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Position: {x: 12.464978, y: 0, z: -4.785075}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Position: {x: 6.9449377, y: 0, z: -10.590523}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Position: {x: -3.9434118, y: 0, z: -7.227811}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

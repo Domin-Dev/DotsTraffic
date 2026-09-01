@@ -56,10 +56,34 @@ public class RoadElement : MonoBehaviour
     }
 
 
-    // [UnityEditor.MenuItem("RoadElement/DeletePoint _DEL",true, 1000)]
-    // public static bool DeletePoiknt()
-    // {
-    //     return true; 
-    // }   
+    public void DuplicatePoint(RoadPoint roadPoint)
+    {
+        int index = Points.IndexOf(roadPoint);
+        if(index >= 0)
+        {   
+            var newPoint = new RoadPoint(roadPoint);
+            if(Points.Count == index + 1)
+            {
+                if(Points.Count == 1)
+                    newPoint.Position += new Vector3(0,0,1);
+                else
+                    newPoint.Position += (roadPoint.Position - Points[index - 1].Position).normalized;
+            }
+            else
+                newPoint.Position += (Points[index + 1].Position - roadPoint.Position).normalized;
+            Points.Insert(index + 1,newPoint);
+        }
+    }  
+    public void DeletePoint(RoadPoint roadPoint)
+    {
+        Points.Remove(roadPoint);
+    }
+    public void AddPoint()
+    {
+        if(Points.Count > 0)
+            DuplicatePoint(Points[Points.Count -1]);
+        else  
+            Points.Add(new RoadPoint(Vector3.zero));
+    }
 }
 

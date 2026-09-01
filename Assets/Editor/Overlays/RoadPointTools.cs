@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEditor.Overlays;
 using UnityEditor.VersionControl;
@@ -8,6 +9,10 @@ using UnityEngine.UIElements;
 [Icon("Assets/Textures/ToolIcons/RoadPoint.png")]
 public class RoadPointTools : Overlay, ITransientOverlay
 {
+    public static event Action<Vector3> OnChangePosition;
+    public static event Action OnClickDeleteButton;
+    public static event Action OnClickDuplicateButton;
+    
     private RoadPoint roadPoint;
     private RoadElement roadElement;
 
@@ -15,7 +20,6 @@ public class RoadPointTools : Overlay, ITransientOverlay
     private Button deleteButton;
     private Button duplicateButton;
     private VisualElement buttons;
-
 
     public bool visible
     {
@@ -35,22 +39,18 @@ public class RoadPointTools : Overlay, ITransientOverlay
 
         var title = new Label("Road Point Tools");
         positionField = new Vector3Field("Position");
-        positionField.RegisterValueChangedCallback((e) =>
-        {
-            if(roadPoint == null) return;
-            Undo.RecordObject(roadElement, "Change Position");
-            roadPoint.Position = e.newValue;
-            EditorUtility.SetDirty(roadElement);
-        });
+        positionField.RegisterValueChangedCallback((e) => {OnChangePosition?.Invoke(e.newValue); });
 
         deleteButton = CustomEditorUtility.GetSingleLineButton("Delete point",CustomEditorIcons.Delete);
         duplicateButton = CustomEditorUtility.GetSingleLineButton("Duplicate point",CustomEditorIcons.Duplicate);
+
+        deleteButton.RegisterCallback<ClickEvent>((e) => { OnClickDeleteButton?.Invoke(); });
+        duplicateButton.RegisterCallback<ClickEvent>((e) => { OnClickDuplicateButton?.Invoke(); });
 
         buttons = new VisualElement();
         buttons.style.flexDirection = FlexDirection.Row;
         buttons.Add(deleteButton);
         buttons.Add(duplicateButton);
-
 
         root.Add(title);
         root.Add(positionField);
@@ -59,6 +59,7 @@ public class RoadPointTools : Overlay, ITransientOverlay
         RefreshUI();
         return root;
     }
+
     public override void OnCreated()
     {
         RoadElementEditor.OnSelectionChanged += UpdateSelection;
@@ -79,7 +80,6 @@ public class RoadPointTools : Overlay, ITransientOverlay
         this.roadElement = roadElement;
         RefreshUI();
     }
-
     private void RefreshUI()
     {
         if(positionField == null) 
