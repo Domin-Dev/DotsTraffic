@@ -47,7 +47,7 @@ public class RoadElementEditor : Editor
         Events();
         Tools.hidden = !showHandle; 
         PrintPointsHandles(road);
-        PrintLines(road);
+        PrintLinesBezier(road);
     }
     public override void OnInspectorGUI()
     {        
@@ -64,16 +64,12 @@ public class RoadElementEditor : Editor
         if (CustomEditorUtility.SingleLineButton("Project to Surface",CustomEditorIcons.ProjectToSurface))
             RecordAction(road,"Project to Surface",road.ProjectToSurface);
         
-
         EditorGUILayout.EndHorizontal();
-        DrawPropertiesExcluding(serializedObject);
+        DrawDefaultInspector();
 
         if (CustomEditorUtility.SingleLineButton("Add Point",CustomEditorIcons.Add))
             RecordAction(road,"Add road point",road.AddPoint);
-
-        serializedObject.ApplyModifiedProperties();
     }
-   
     private void EditorOptions()
     {
         EditorGUILayout.BeginHorizontal();
@@ -86,7 +82,6 @@ public class RoadElementEditor : Editor
         EditorGUILayout.Separator();
         EditorGUILayout.Separator();
     }
-
     private bool Toggle(GUIStyle toggleButton,string text,bool currentValue)
     {
         bool newValue = GUILayout.Toggle(currentValue,text, toggleButton);
@@ -97,8 +92,6 @@ public class RoadElementEditor : Editor
         }    
         return currentValue;
     }
-
-
 
 
 
@@ -135,11 +128,31 @@ public class RoadElementEditor : Editor
         selectedPoint = null;
         OnSelectionChanged?.Invoke(selectedPoint);
     }
+    private void PrintLinesBezier(RoadElement roadElement)
+    {
+        for (int i = 0; i < road.Points.Count - 1; i++)
+        {
+            RoadPoint currentPoint = road.Points[i];
+            RoadPoint nextPoint = road.Points[i+1];
+            DrawLine(currentPoint,nextPoint);
+        }
+        if(roadElement.Loop && road.Points.Count > 1)
+            DrawLine(road.Points[road.Points.Count-1],road.Points[0]);
+    }
+    private void DrawLine(RoadPoint currentPoint,RoadPoint nextPoint)
+    {
+        Vector3 startPoint = road.transform.TransformPoint(currentPoint.Position);
+        Vector3 endPoint = road.transform.TransformPoint(nextPoint.Position);
+        Vector3 starthandler = road.transform.TransformPoint(currentPoint.HandleA);
+        Vector3 endhandler = road.transform.TransformPoint(nextPoint.HandleB);
+
+        Handles.color = RoadEditorConfig.HandleLineColor;
+        Handles.DrawBezier(startPoint,endPoint,starthandler,endhandler,Color.white,null,5f);
+    }
     private void PrintLines(RoadElement road)
     {
         if(road.Points.Count == 0) return;
-
-        Handles.color = Color.cyan;
+        
         Vector3? nextStartOffset = null;
         Vector3 startNode = road.transform.TransformPoint(road.Points[0].Position);
         Vector3 previousNodePosition;
@@ -183,11 +196,11 @@ public class RoadElementEditor : Editor
             Vector3 startMedianOffset = startOffset * road.HalfMedianStripWidth;
             Vector3 endMedianOffset = endOffset * road.HalfMedianStripWidth;
 
-            Handles.color = Color.red;
+            Handles.color = RoadEditorConfig.MedianStripColor;
             Handles.DrawLine(a + startMedianOffset,b + endMedianOffset);
             Handles.DrawLine(a - startMedianOffset,b - endMedianOffset);
 
-            Handles.color = Color.white;
+            Handles.color = RoadEditorConfig.LaneColor;
             Handles.DrawLine(a + startMedianOffset + road.ForwardRoadwayWidth * startOffset,b + endMedianOffset  + road.ForwardRoadwayWidth * endOffset);
             Handles.DrawLine(a - startMedianOffset - road.BackwardRoadwayWidth * startOffset,b - endMedianOffset  - road.BackwardRoadwayWidth * endOffset);
 
@@ -224,11 +237,11 @@ public class RoadElementEditor : Editor
     private void PrintArrows(RoadElement road,Vector3 nodePosition,Vector3 nextNodeDir,Vector3 previousNodeDir,Vector3 offsetDirection,Vector3 medianOffset)
     {
         float size = HandleUtility.GetHandleSize(nodePosition) * 0.4f;
-        Handles.color = Color.magenta;
+        Handles.color = RoadEditorConfig.ForwardLaneColor;
         for(int i = 0; i < road.ForwardLaneCount; i++)
             Handles.ArrowHandleCap(0,nodePosition + medianOffset + offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(nextNodeDir),size, EventType.Repaint); 
         
-        Handles.color = Color.cyan;
+        Handles.color = RoadEditorConfig.BackwardLaneColor;
         for(int i = 0; i < road.BackwardLaneCount; i++)
             Handles.ArrowHandleCap(0,nodePosition - medianOffset - offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(previousNodeDir),size, EventType.Repaint);       
     }
@@ -242,17 +255,38 @@ public class RoadElementEditor : Editor
 
             if(roadPoint == selectedPoint)
             {
-                Handles.color = Color.cyan;
+                Vector3 handleA = road.transform.TransformPoint(roadPoint.HandleA);
+                Vector3 handleB = road.transform.TransformPoint(roadPoint.HandleB);
+
+                Handles.color = RoadEditorConfig.SelectedRoadPointColor;
                 Handles.SphereHandleCap(0,worldPoint,Quaternion.identity,size,EventType.Repaint);
+                
+                Handles.color = RoadEditorConfig.HandleAColor;
+                Handles.SphereHandleCap(0,handleA,Quaternion.identity,size,EventType.Repaint);
+                
+                Handles.color = RoadEditorConfig.HandleBColor;
+                Handles.SphereHandleCap(0,handleB,Quaternion.identity,size,EventType.Repaint);
+
+                Handles.color = RoadEditorConfig.HandleLineColor;
+                Handles.DrawLine(worldPoint,handleA);
+                Handles.DrawLine(worldPoint,handleB);
 
                 EditorGUI.BeginChangeCheck();
-                Vector3 newWorldPoint = Handles.PositionHandle(worldPoint,roadPoint.Rotation); 
+                Vector3 newWorldPoint = road.transform.InverseTransformPoint(Handles.PositionHandle(worldPoint,Quaternion.identity)); 
+                Vector3 newHandleA = road.transform.InverseTransformPoint(Handles.PositionHandle(handleA,Quaternion.identity)); 
+                Vector3 newHandleB = road.transform.InverseTransformPoint(Handles.PositionHandle(handleB,Quaternion.identity)); 
+
                 if (EditorGUI.EndChangeCheck())
-                    ChangePosition(road.transform.InverseTransformPoint(newWorldPoint));
+                {
+                    if(newWorldPoint != worldPoint)
+                        ChangePosition(road.transform.InverseTransformPoint(newWorldPoint));
+                    else
+                        ChangeHandles(roadPoint,newHandleA-newWorldPoint,newHandleB-newWorldPoint);
+                }
             }
             else
             {
-                Handles.color = Color.blue;
+                Handles.color = RoadEditorConfig.RoadPointColor;
                 if (Handles.Button(worldPoint, Quaternion.identity, size,size, Handles.SphereHandleCap))
                     SelectPoint(roadPoint);
             }
@@ -287,6 +321,20 @@ public class RoadElementEditor : Editor
     }
 
 
+
+    private void ChangeHandles(RoadPoint roadPoint,Vector3 handleA,Vector3 handleB)
+    {
+        RecordAction(road,"Move road point",() =>
+        { 
+            if(roadPoint != null)
+            {
+                roadPoint.LocalPositionHandleA = handleA;
+                roadPoint.LocalPositionHandleB = handleB;
+            }
+        });
+        if(selectedPoint == roadPoint)
+            OnSelectionChanged?.Invoke(selectedPoint);
+    }
     private void ChangePosition(RoadPoint roadPoint,Vector3 newPosition)
     {
         RecordAction(road,"Move road point",() =>
