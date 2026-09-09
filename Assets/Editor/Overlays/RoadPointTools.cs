@@ -10,6 +10,8 @@ using UnityEngine.UIElements;
 public class RoadPointTools : Overlay, ITransientOverlay
 {
     public static event Action<Vector3> OnChangePosition;
+    public static event Action<Vector3> OnChangeHandleAPosition;
+    public static event Action<Vector3> OnChangeHandleBPosition;
     public static event Action OnClickDeleteButton;
     public static event Action OnClickDuplicateButton;
     
@@ -17,9 +19,15 @@ public class RoadPointTools : Overlay, ITransientOverlay
     private RoadElement roadElement;
 
     private Vector3Field positionField;
+    private Vector3Field HandleAPositionField;
+    private Vector3Field HandleBPositionField;
     private Button deleteButton;
     private Button duplicateButton;
+
+
+
     private VisualElement buttons;
+    private VisualElement positionFields;
 
     public bool visible
     {
@@ -34,26 +42,39 @@ public class RoadPointTools : Overlay, ITransientOverlay
   
     public override VisualElement CreatePanelContent()
     {
-        var root = new VisualElement();
-        root.style.minWidth = 300;
-
+        // title
         var title = new Label("Road Point Tools");
+
+        // Position Fields
         positionField = new Vector3Field("Position");
         positionField.RegisterValueChangedCallback((e) => {OnChangePosition?.Invoke(e.newValue); });
+        HandleAPositionField = new Vector3Field("HandleA position");
+        HandleAPositionField.RegisterValueChangedCallback((e) => {OnChangeHandleAPosition?.Invoke(e.newValue); });
+        HandleBPositionField = new Vector3Field("HandleB position");
+        HandleBPositionField.RegisterValueChangedCallback((e) => {OnChangeHandleBPosition?.Invoke(e.newValue); });
 
+        positionFields = new VisualElement();
+        positionFields.Add(positionField);
+        positionFields.Add(HandleAPositionField);
+        positionFields.Add(HandleBPositionField);
+
+        // Buttons
         deleteButton = CustomEditorUtility.GetSingleLineButton("Delete point",CustomEditorIcons.Delete);
         duplicateButton = CustomEditorUtility.GetSingleLineButton("Duplicate point",CustomEditorIcons.Duplicate);
-
         deleteButton.RegisterCallback<ClickEvent>((e) => { OnClickDeleteButton?.Invoke(); });
         duplicateButton.RegisterCallback<ClickEvent>((e) => { OnClickDuplicateButton?.Invoke(); });
-
+       
         buttons = new VisualElement();
         buttons.style.flexDirection = FlexDirection.Row;
         buttons.Add(deleteButton);
         buttons.Add(duplicateButton);
 
+        // root
+        var root = new VisualElement();
+        root.style.minWidth = 300;
+
         root.Add(title);
-        root.Add(positionField);
+        root.Add(positionFields);
         root.Add(buttons);
 
         RefreshUI();
@@ -82,19 +103,22 @@ public class RoadPointTools : Overlay, ITransientOverlay
     }
     private void RefreshUI()
     {
-        if(positionField == null) 
+        if(positionFields == null) 
             return;
 
         if(roadPoint != null)
         {
-            positionField.visible = true;
+            positionFields.visible = true;
             buttons.visible = true;
+
             positionField.value = roadPoint.Position; 
+            HandleAPositionField.value = roadPoint.LocalPositionHandleA; 
+            HandleBPositionField.value = roadPoint.LocalPositionHandleB; 
         }
         else 
         {
-            positionField.visible = false;
-            buttons.visible = false;
+            positionFields.visible = false;
+            buttons.visible = false;   
         }
     }
 }

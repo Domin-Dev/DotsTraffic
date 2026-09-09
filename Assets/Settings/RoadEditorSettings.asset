@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6443c7b997efc7c85f08b8f6b16c40, type: 3}
+  m_Name: RoadEditorSettings
+  m_EditorClassIdentifier: 
+  MedianStripColor: {r: 1, g: 0, b: 0, a: 1}
+  LaneColor: {r: 1, g: 1, b: 1, a: 1}
+  ForwardLaneColor: {r: 1, g: 0, b: 1, a: 1}
+  BackwardLaneColor: {r: 0, g: 1, b: 1, a: 1}
+  RoadPointColor: {r: 1, g: 0, b: 0.10779095, a: 1}
+  SelectedRoadPointColor: {r: 0, g: 1, b: 1, a: 1}
+  HandleAColor: {r: 1, g: 0.55447114, b: 0, a: 1}
+  HandleBColor: {r: 0, g: 1, b: 0, a: 1}
+  HandleLineColor: {r: 1, g: 1, b: 1, a: 1}
