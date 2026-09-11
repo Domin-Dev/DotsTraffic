@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df6443c7b997efc7c85f08b8f6b16c40, type: 3}
   m_Name: RoadEditorSettings
   m_EditorClassIdentifier: 
-  MedianStripColor: {r: 1, g: 0, b: 0, a: 1}
+  MedianStripColor: {r: 0.6528621, g: 1, b: 0, a: 1}
   LaneColor: {r: 1, g: 1, b: 1, a: 1}
   ForwardLaneColor: {r: 1, g: 0, b: 1, a: 1}
   BackwardLaneColor: {r: 0, g: 1, b: 1, a: 1}
-  RoadPointColor: {r: 1, g: 0, b: 0.10779095, a: 1}
+  RoadPointColor: {r: 1, g: 0, b: 0.94998837, a: 1}
   SelectedRoadPointColor: {r: 0, g: 1, b: 1, a: 1}
   HandleAColor: {r: 1, g: 0.55447114, b: 0, a: 1}
   HandleBColor: {r: 0, g: 1, b: 0, a: 1}

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
 [CustomEditor(typeof(RoadElement))]
@@ -9,6 +11,8 @@ public class RoadElementEditor : Editor
 {   
     public static event Action<RoadPoint> OnSelectionChanged;
     public static event Action<RoadElement> OnTargetChanged;
+    public static HandleMode selectedHandleMode { private set; get; } = HandleMode.Free;
+    
     private static bool showHandle = true;
     private static bool showEditButtons = false;
     private static bool showRoadEditorSettings = false;
@@ -17,8 +21,9 @@ public class RoadElementEditor : Editor
     private static bool PointIsSelected => selectedPoint != null;
     private RoadElement road;
     private static Editor roadEditorSettingsEditor;
-
     private RoadEditorSettings roadEditorSettings;
+
+    private static bool addNewPoint = false;
 
     private void OnEnable()
     {
@@ -30,6 +35,7 @@ public class RoadElementEditor : Editor
         RoadPointTools.OnChangePosition += ChangePosition;
         RoadPointTools.OnChangeHandleAPosition += ChangeHandleA;
         RoadPointTools.OnChangeHandleBPosition += ChangeHandleB;
+        RoadPointTools.OnChangeHandleMode += ChangeHandleMode;
         
         RoadPointTools.OnClickDeleteButton += DeletePoint;
         RoadPointTools.OnClickDuplicateButton += DuplicatePoint;
@@ -41,6 +47,7 @@ public class RoadElementEditor : Editor
         RoadPointTools.OnChangePosition -= ChangePosition;
         RoadPointTools.OnChangeHandleAPosition -= ChangeHandleA;
         RoadPointTools.OnChangeHandleBPosition -= ChangeHandleB;
+        RoadPointTools.OnChangeHandleMode -= ChangeHandleMode;
 
         RoadPointTools.OnClickDeleteButton -= DeletePoint;
         RoadPointTools.OnClickDuplicateButton -= DuplicatePoint;
@@ -141,6 +148,12 @@ public class RoadElementEditor : Editor
             }
             Debug.Log($"Validate: {e.commandName}");
         }
+
+        if(addNewPoint)
+        {
+            Debug.Log(e.mousePosition);
+            addNewPoint = false;
+        }
     }
     private void SelectPoint(RoadPoint roadPoint)
     {
@@ -164,17 +177,29 @@ public class RoadElementEditor : Editor
         
             DrawLine(road.Points[road.Points.Count-1],road.Points[0]);
     }
-    private void DrawLine(RoadPoint currentPoint,RoadPoint nextPoint)
-    {
-        
-        Vector3 startPoint = road.transform.TransformPoint(currentPoint.Position);
-        Vector3 endPoint = road.transform.TransformPoint(nextPoint.Position);
-        Vector3 starthandler = road.transform.TransformPoint(currentPoint.HandleA);
-        Vector3 endhandler = road.transform.TransformPoint(nextPoint.HandleB);
 
-        Handles.color = roadEditorSettings.HandleLineColor;
-        Handles.DrawBezier(startPoint,endPoint,starthandler,endhandler,Color.white,null,5f);   
-    }
+
+
+
+private void DrawLine(RoadPoint currentPoint, RoadPoint nextPoint, float offset = 2.0f)
+{
+    Vector3 startPoint = road.transform.TransformPoint(currentPoint.Position);
+    Vector3 endPoint = road.transform.TransformPoint(nextPoint.Position);
+    Vector3 startHandler = road.transform.TransformPoint(currentPoint.HandleA);
+    Vector3 endHandler = road.transform.TransformPoint(nextPoint.HandleB);
+
+    Vector3? prevStartHandler = road.transform.TransformPoint(currentPoint.HandleB);
+    Vector3? nextEndHandler = road.transform.TransformPoint(nextPoint.HandleA);
+
+    Handles.color = roadEditorSettings.HandleLineColor;
+    Handles.DrawBezier(startPoint, endPoint, startHandler, endHandler, Color.white, null, 5f);   
+
+    Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -offset, 30).ToArray());
+    Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, offset, 30).ToArray());
+}
+
+
+
 
 
     private void PrintLines(RoadElement road)
@@ -207,12 +232,12 @@ public class RoadElementEditor : Editor
             {
                 Vector3 c = road.transform.TransformPoint(road.Points[i + 2].Position);  
                 Vector3 offset2 = Vector3.Cross(Vector3.up, c - b).normalized;
-                if(LineIntersectionXZ(a + startOffset,b + offset1,b + offset2,c + offset2,out var news))
-                {
-                    news.y = b.y;
-                    endOffset = news - b; 
-                    nextStartOffset = endOffset;
-                }
+                // if(LineIntersectionXZ(a + startOffset,b + offset1,b + offset2,c + offset2,out var news))
+                // {
+                //     news.y = b.y;
+                //     endOffset = news - b; 
+                //     nextStartOffset = endOffset;
+                // }
             }
             else
                 endOffset = offset1;
@@ -305,9 +330,11 @@ public class RoadElementEditor : Editor
                 
                 EditorGUI.BeginChangeCheck();
                 Vector3 newHandleA = road.transform.InverseTransformPoint(Handles.PositionHandle(handleA,Quaternion.identity)); 
+                if(EditorGUI.EndChangeCheck()) ChangeHandleA(newHandleA-newWorldPoint);
+               
+                EditorGUI.BeginChangeCheck();
                 Vector3 newHandleB = road.transform.InverseTransformPoint(Handles.PositionHandle(handleB,Quaternion.identity)); 
-                if(EditorGUI.EndChangeCheck()) ChangeHandles(roadPoint,newHandleA-newWorldPoint,newHandleB-newWorldPoint);
-
+                if(EditorGUI.EndChangeCheck()) ChangeHandleB(newHandleB-newWorldPoint);
             }
             else
             {
@@ -318,53 +345,23 @@ public class RoadElementEditor : Editor
             Handles.Label(worldPoint + new Vector3(0,0,1) * size,$"Point {i}");
         }
     }
-    private bool LineIntersectionXZ(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,out Vector3 intersection)
+
+
+
+    #region  Handles
+    private void ChangeHandleMode(HandleMode handleMode)
     {
-        intersection = Vector3.zero;
-        Vector2 a = new Vector2(p1.x, p1.z);
-        Vector2 b = new Vector2(p2.x, p2.z);
-        Vector2 c = new Vector2(p3.x, p3.z);
-        Vector2 d = new Vector2(p4.x, p4.z);
-        Vector2 r = b - a;
-        Vector2 s = d - c;
-
-        float cross = r.x * s.y - r.y * s.x;
-
-        if (Mathf.Abs(cross) < 0.0001f)
-            return false;
-
-        Vector2 ca = c - a;
-        float t = (ca.x * s.y - ca.y * s.x) / cross;
-        Vector2 result = a + r * t;
-
-        intersection = new Vector3(
-            result.x,
-            p1.y,
-            result.y
-        );
-        return true;
-    }
-
-
-    private void ChangeHandles(RoadPoint roadPoint,Vector3 handleA,Vector3 handleB)
-    {
-        RecordAction(road,"Move road point",() =>
-        { 
-            if(roadPoint != null)
-            {
-                roadPoint.LocalPositionHandleA = handleA;
-                roadPoint.LocalPositionHandleB = handleB;
-            }
-        });
-        if(selectedPoint == roadPoint)
-            OnSelectionChanged?.Invoke(selectedPoint);
+        selectedHandleMode = handleMode;
     }
     private void ChangeHandleA(Vector3 handleA)
     {
         RecordAction(road,"Move road point",() =>
         { 
             if(selectedPoint != null)
+            {
                 selectedPoint.LocalPositionHandleA = handleA;
+                selectedPoint.LocalPositionHandleB = CalculateOppositeHandle(handleA, selectedPoint.LocalPositionHandleB);
+            }
         });
         OnSelectionChanged?.Invoke(selectedPoint);
     }
@@ -373,10 +370,28 @@ public class RoadElementEditor : Editor
         RecordAction(road,"Move road point",() =>
         { 
             if(selectedPoint != null)
+            {
                 selectedPoint.LocalPositionHandleB = handleB;
+                selectedPoint.LocalPositionHandleA = CalculateOppositeHandle(handleB, selectedPoint.LocalPositionHandleA);
+            }
         });
         OnSelectionChanged?.Invoke(selectedPoint);
     }
+    private Vector3 CalculateOppositeHandle(Vector3 changedHandle1,Vector3 currentHandle2)
+    {
+        switch(selectedHandleMode)
+        {
+            case HandleMode.Free:
+                return currentHandle2;
+            case HandleMode.Mirrored:
+                return -changedHandle1;
+            case HandleMode.Aligned:
+                float length = currentHandle2.magnitude;
+                return -math.normalizesafe(changedHandle1.normalized) * length;
+        }
+        return currentHandle2;
+    }
+    #endregion
     private void ChangePosition(RoadPoint roadPoint,Vector3 newPosition)
     {
         RecordAction(road,"Move road point",() =>
@@ -415,5 +430,12 @@ public class RoadElementEditor : Editor
         Undo.RecordObject(roadElement, actionName);
         action();
         EditorUtility.SetDirty(roadElement);
+    }
+
+    [Shortcut("TrafficTools/AddRoadPoint",typeof(SceneView), KeyCode.Mouse0, ShortcutModifiers.Control | ShortcutModifiers.Shift)]
+    public static void DoSomething()
+    {
+        Debug.Log(Event.current.mousePosition);
+        addNewPoint =  true;
     }
 }

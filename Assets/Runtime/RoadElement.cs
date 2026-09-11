@@ -56,21 +56,38 @@ public class RoadElement : MonoBehaviour
     }
 
 
+
     public void DuplicatePoint(RoadPoint roadPoint)
     {
         int index = Points.IndexOf(roadPoint);
         if(index >= 0)
         {   
-            var newPoint = new RoadPoint(roadPoint);
-            if(Points.Count == index + 1)
+            RoadPoint newPoint;
+            if(Points.Count == index + 1 || index == 0)
             {
-                if(Points.Count == 1)
-                    newPoint.Position += new Vector3(0,0,1);
+                if(Loop)
+                {
+                    if(Points.Count == 1)
+                    {
+                        var direction = roadPoint.LocalPositionHandleA.normalized + roadPoint.LocalPositionHandleB.normalized;
+                        if (direction.sqrMagnitude < 0.1f)
+                            direction = Vector3.Cross(roadPoint.LocalPositionHandleA, Vector3.up).normalized;  
+                        float length = roadPoint.LocalPositionHandleA.magnitude + roadPoint.LocalPositionHandleB.magnitude;
+                        newPoint = new RoadPoint(roadPoint.Position + direction * length,-roadPoint.LocalPositionHandleA,-roadPoint.LocalPositionHandleB); 
+                    }
+                    else
+                        newPoint = new RoadPoint((roadPoint.HandleA + roadPoint.HandleB) * 0.5f,-roadPoint.LocalPositionHandleA,-roadPoint.LocalPositionHandleA);  
+                }
                 else
-                    newPoint.Position += (roadPoint.Position - Points[index - 1].Position).normalized;
+                {
+                    newPoint = new RoadPoint(roadPoint.Position + roadPoint.LocalPositionHandleA * 2f,roadPoint.LocalPositionHandleA,-roadPoint.LocalPositionHandleA);  
+                }
+//Vector3 position = roadPoint.Position + roadPoint.LocalPositionHandleA * 2f;
+              //  Vector3 handleA = Loop ? Points[0].HandleB - position: -roadPoint.LocalPositionHandleA;        
             }
             else
-                newPoint.Position += (Points[index + 1].Position - roadPoint.Position).normalized;
+                newPoint = new RoadPoint(roadPoint);
+             //   newPoint.Position += (Points[index + 1].Position - roadPoint.Position).normalized;
             Points.Insert(index + 1,newPoint);
         }
     }  
@@ -85,5 +102,6 @@ public class RoadElement : MonoBehaviour
         else  
             Points.Add(new RoadPoint(Vector3.zero));
     }
+    
 }
 

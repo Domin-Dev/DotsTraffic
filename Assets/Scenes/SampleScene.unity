@@ -222,70 +222,12 @@ Transform:
   m_GameObject: {fileID: 8347273}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 2.2717, z: 3.7}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalPosition: {x: 1.2, y: 20.64, z: 2.88}
+  m_LocalScale: {x: 37.693, y: 3.7693, z: 37.693}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &181910999
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 181911000}
-  - component: {fileID: 181911001}
-  m_Layer: 0
-  m_Name: RoadElement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &181911000
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181910999}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &181911001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181910999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 1
-  BackwardLaneCount: 1
-  MedianStripWidth: 0.1
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: -5.6372986, y: 0, z: 3.6792173}
-    LocalPositionHandleA: {x: -0.20584631, y: 0, z: -8.756946}
-    LocalPositionHandleB: {x: 0, y: 0, z: 1}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 1, y: 0, z: 0}
-    LocalPositionHandleA: {x: -3.6264915, y: 0, z: -6.345669}
-    LocalPositionHandleB: {x: -1.016305, y: 0, z: 7.0239825}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,7 +315,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 19.3683, z: -10.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -514,8 +456,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.23541547, y: -0.5894421, z: 0.18494777, w: 0.75028795}
+  m_LocalPosition: {x: 93.192505, y: 71.64589, z: -10.291939}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -544,64 +486,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
---- !u!1 &788849949
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 788849950}
-  - component: {fileID: 788849951}
-  m_Layer: 0
-  m_Name: RoadElement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &788849950
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788849949}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.024095498, y: -0.000024957952, z: 0.0010354919, w: 0.9997091}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 2.761, y: 0, z: 0.119}
---- !u!114 &788849951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788849949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 1
-  BackwardLaneCount: 1
-  MedianStripWidth: 0.1
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: -28.682356, y: 8.22395, z: 29.485031}
-    LocalPositionHandleA: {x: 47.342285, y: -4.131194, z: 29.607964}
-    LocalPositionHandleB: {x: -11.519636, y: -4.1630917, z: -20.007286}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 18.851397, y: -0.88389134, z: -6.190323}
-    LocalPositionHandleA: {x: -5.3006573, y: -8.578131, z: -6.6993027}
-    LocalPositionHandleB: {x: -60.036278, y: 3.0586107, z: -47.514595}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,74 +529,12 @@ Transform:
   m_GameObject: {fileID: 832575517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 18.3683, z: -0.81999993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &891407060
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 891407061}
-  - component: {fileID: 891407062}
-  m_Layer: 0
-  m_Name: RoadElement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &891407061
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891407060}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.12725958, y: -0.14908503, z: 0.0077793105, w: 0.9805704}
-  m_LocalPosition: {x: -8.8, y: 2, z: -9.8}
-  m_LocalScale: {x: 0.46641, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 905866998}
-  m_LocalEulerAnglesHint: {x: 14.59, y: -17.462, z: -1.343}
---- !u!114 &891407062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891407060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 1
-  BackwardLaneCount: 1
-  MedianStripWidth: 0.1
-  LaneWidth: 0.5
-  Points:
-  - Position: {x: 883.75934, y: -162.93658, z: -2.330536}
-    LocalPositionHandleA: {x: 492.44498, y: -141.42145, z: -236.86273}
-    LocalPositionHandleB: {x: -25.80835, y: 0.20251179, z: 39.983368}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 6.2268047, y: 11.112703, z: 10.112634}
-    LocalPositionHandleA: {x: 62.88973, y: 4.6183424, z: 19.43059}
-    LocalPositionHandleB: {x: -45.438976, y: 4.2603884, z: 1.5665874}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 5.4317703, y: 11.692621, z: 9.934826}
-    LocalPositionHandleA: {x: 62.88973, y: 4.6183424, z: 19.43059}
-    LocalPositionHandleB: {x: -45.438976, y: 4.2603884, z: 1.5665874}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &905866996
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,11 +564,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f773493bf148335871d0d4a9b276be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SubScenePath: Assets/Scenes/TrafficSubScene.unity
-  subScene: {fileID: 1603337158}
+  subScenePath: Assets/Scenes/TrafficSubScene.unity
+  subScene: {fileID: 0}
   surfaceLayer:
     serializedVersion: 2
     m_Bits: 1
+  roadSpace: 0
 --- !u!4 &905866998
 Transform:
   m_ObjectHideFlags: 0
@@ -756,17 +579,14 @@ Transform:
   m_GameObject: {fileID: 905866996}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 30.1683, z: -0.81999993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1279088169}
-  - {fileID: 891407061}
-  - {fileID: 788849950}
-  - {fileID: 181911000}
+  - {fileID: 1169605490}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1279088168
+--- !u!1 &1169605489
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -774,8 +594,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1279088169}
-  - component: {fileID: 1279088170}
+  - component: {fileID: 1169605490}
+  - component: {fileID: 1169605491}
   m_Layer: 0
   m_Name: RoadElement
   m_TagString: Untagged
@@ -783,100 +603,59 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1279088169
+--- !u!4 &1169605490
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279088168}
+  m_GameObject: {fileID: 1169605489}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0, z: 0}
+  m_LocalPosition: {x: -0.99, y: -30.2, z: 0.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 905866998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1279088170
+--- !u!114 &1169605491
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279088168}
+  m_GameObject: {fileID: 1169605489}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Loop: 1
+  Loop: 0
   ForwardLaneCount: 1
   BackwardLaneCount: 1
   MedianStripWidth: 0.1
   LaneWidth: 0.5
   Points:
-  - Position: {x: -80.047615, y: 85.19575, z: -287.81253}
-    LocalPositionHandleA: {x: -7.78537, y: 0, z: 180.58801}
-    LocalPositionHandleB: {x: 105.40145, y: 0, z: -120.575134}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-  - Position: {x: 243.42863, y: 183.33965, z: 188.17474}
-    LocalPositionHandleA: {x: -50.758667, y: 0, z: -493.15173}
-    LocalPositionHandleB: {x: 672.9675, y: -821.80176, z: -470.19876}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!1 &1603337157
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1603337159}
-  - component: {fileID: 1603337158}
-  m_Layer: 0
-  m_Name: SubScene
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1603337158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1603337157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45a335734b1572644a6a5d09d87adc65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _SceneAsset: {fileID: 102900000, guid: a9d5ec0b07b473de08285586f9d6eb72, type: 3}
-  _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  AutoLoadScene: 1
-  _SceneGUID:
-    Value:
-      x: 2966314394
-      y: 3979823984
-      z: 1750434432
-      w: 666791327
---- !u!4 &1603337159
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1603337157}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  - Position: {x: 103.866516, y: 0.06340027, z: 15.64089}
+    LocalPositionHandleA: {x: 30.235773, y: -0, z: -10.685412}
+    LocalPositionHandleB: {x: -79.839096, y: 0, z: 28.215376}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+  - Position: {x: -16.953632, y: 0.0951004, z: 129.44238}
+    LocalPositionHandleA: {x: -76.44727, y: -0, z: 0.89743865}
+    LocalPositionHandleB: {x: 43.97946, y: 0, z: -0.51628876}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+  - Position: {x: -179.93477, y: 0.12680054, z: 41.666367}
+    LocalPositionHandleA: {x: -8.412434, y: -0, z: -88.0202}
+    LocalPositionHandleB: {x: 9.321381, y: 0, z: 97.530624}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+  - Position: {x: -101.71411, y: 0.15850067, z: -42.74268}
+    LocalPositionHandleA: {x: 53.016933, y: 0, z: 33.281734}
+    LocalPositionHandleB: {x: -33.51048, y: -0, z: -21.036428}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+  - Position: {x: -51.800278, y: 0.22190094, z: 77.555466}
+    LocalPositionHandleA: {x: 109.56587, y: 0, z: -16.06924}
+    LocalPositionHandleB: {x: -92.05345, y: 0, z: 6.3761444}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -885,5 +664,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 8347277}
-  - {fileID: 1603337159}
   - {fileID: 905866998}

@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class SubSceneGenerator : MonoBehaviour
 {
-    [SerializeField] private string SubScenePath = "Assets/Scenes/TrafficSubScene.unity";
+    [SerializeField] private string subScenePath = "Assets/Scenes/TrafficSubScene.unity";
     public SubScene subScene;
     public LayerMask surfaceLayer = 1 << 0;
+    public RoadSpace roadSpace;
     
     #if UNITY_EDITOR
     public void CreateRoadElement()
@@ -28,7 +29,7 @@ public class SubSceneGenerator : MonoBehaviour
     public void GenerateSubScene()
     {
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
-        if(EditorSceneManager.SaveScene(scene,SubScenePath))
+        if(EditorSceneManager.SaveScene(scene,subScenePath))
         {
             if(EditorSceneManager.CloseScene(scene,true))
             {
@@ -37,7 +38,7 @@ public class SubSceneGenerator : MonoBehaviour
 
                 var subSceneGameObject = new GameObject("SubScene");
                 subScene = subSceneGameObject.AddComponent<SubScene>();
-                subScene.SceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(SubScenePath);
+                subScene.SceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(subScenePath);
             }
         }
         else
