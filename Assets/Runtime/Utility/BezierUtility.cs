@@ -68,7 +68,6 @@ public static class BezierUtility
 
         return RemoveSelfIntersections(rawOffsetPoints);
     }
-
     public static List<Vector3> RemoveSelfIntersections(List<Vector3> points)
     {
         int count = points.Count;

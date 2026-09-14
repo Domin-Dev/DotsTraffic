@@ -19,5 +19,8 @@ public class WeatherAuthoringEditor : Editor
         
         if (CustomEditorUtility.SingleLineButton("Create Road Element",CustomEditorIcons.Add))
             generator.CreateRoadElement(); 
+
+        if (CustomEditorUtility.SingleLineButton("Bake Road Network",CustomEditorIcons.Add))
+            generator.BakeRoadNetwork(); 
     }
 } 

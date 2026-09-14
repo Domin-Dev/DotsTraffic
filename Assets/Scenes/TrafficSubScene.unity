@@ -119,7 +119,190 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &1512791301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1512791302}
+  - component: {fileID: 1512791303}
+  m_Layer: 0
+  m_Name: RoadElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1512791302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512791301}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1512791303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512791301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Loop: 0
+  ForwardLaneCount: 1
+  BackwardLaneCount: 6
+  MedianStripWidth: 0.1
+  LaneWidth: 0.5
+  rootNode:
+    rid: 7826587979269538146
+  references:
+    version: 2
+    RefIds:
+    - rid: 7826587979269538139
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: -9.156017, y: 0, z: 0.99927783}
+        links:
+        - rid: 7826587979269538147
+    - rid: 7826587979269538141
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 17.808432, y: 0, z: 13.846456}
+        links:
+        - rid: 7826587979269538142
+        - rid: 7826587979269538152
+    - rid: 7826587979269538142
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: 4.855233, y: -0, z: -1.7884719}
+        LocalHandleB: {x: 20.656887, y: -3.9859467, z: 10.1111}
+        nodeA:
+          rid: 7826587979269538141
+        nodeB:
+          rid: 7826587979269538143
+    - rid: 7826587979269538143
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 26.01004, y: -17.131691, z: -14.529649}
+        links:
+        - rid: 7826587979269538142
+        - rid: 7826587979269538144
+    - rid: 7826587979269538144
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -20.656887, y: 3.9859467, z: -10.1111}
+        LocalHandleB: {x: 20.992304, y: -3.9859467, z: -14.986736}
+        nodeA:
+          rid: 7826587979269538143
+        nodeB:
+          rid: 7826587979269538145
+    - rid: 7826587979269538145
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 0.46163845, y: -9.159798, z: -25.675873}
+        links:
+        - rid: 7826587979269538144
+    - rid: 7826587979269538146
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 1.1717677, y: 0, z: 11.91199}
+        links:
+        - rid: 7826587979269538147
+        - rid: 7826587979269538148
+        - rid: 7826587979269538149
+    - rid: 7826587979269538147
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: 0.91737175, y: 0, z: 8.18623}
+        LocalHandleB: {x: -4.038733, y: -0, z: -2.246049}
+        nodeA:
+          rid: 7826587979269538139
+        nodeB:
+          rid: 7826587979269538146
+    - rid: 7826587979269538148
+      type: {class: IntersectionConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: 2.1269205, y: 0, z: 0.9038687}
+        LocalHandleB: {x: -0.87394506, y: 0, z: -0.48602474}
+        nodeA:
+          rid: 7826587979269538146
+        nodeB:
+          rid: 7826587979269538150
+    - rid: 7826587979269538149
+      type: {class: IntersectionConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: 1.3437092, y: 0, z: 1.7062635}
+        LocalHandleB: {x: -0.04633856, y: 0, z: -3.24115}
+        nodeA:
+          rid: 7826587979269538146
+        nodeB:
+          rid: 7826587979269538151
+    - rid: 7826587979269538150
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 4.9425116, y: 0, z: 13.678789}
+        links:
+        - rid: 7826587979269538152
+        - rid: 7826587979269538148
+        - rid: 7826587979269538153
+    - rid: 7826587979269538151
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 2.8769436, y: 0, z: 16.751648}
+        links:
+        - rid: 7826587979269538149
+        - rid: 7826587979269538153
+        - rid: 7826587979269538154
+    - rid: 7826587979269538152
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -4.855233, y: 0, z: 1.7884719}
+        LocalHandleB: {x: 4.038733, y: 0, z: 2.246049}
+        nodeA:
+          rid: 7826587979269538141
+        nodeB:
+          rid: 7826587979269538150
+    - rid: 7826587979269538153
+      type: {class: IntersectionConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -0.9616439, y: 0, z: 0.27430105}
+        LocalHandleB: {x: 0.8662176, y: 0, z: -2.3161354}
+        nodeA:
+          rid: 7826587979269538150
+        nodeB:
+          rid: 7826587979269538151
+    - rid: 7826587979269538154
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: 0.033646345, y: 0, z: 2.0441456}
+        LocalHandleB: {x: -0.9795263, y: 0, z: -3.731491}
+        nodeA:
+          rid: 7826587979269538151
+        nodeB:
+          rid: 7826587979269538155
+    - rid: 7826587979269538155
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 3.3301916, y: 0, z: 25.830223}
+        links:
+        - rid: 7826587979269538154
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
-  m_Roots: []
+  m_Roots:
+  - {fileID: 1512791302}
