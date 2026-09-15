@@ -2,7 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-public struct ConnectionPointsBufferB : IBufferElementData
+public struct ConnectionPointsA : IBufferElementData
 {
     public float3 Position;
 }

@@ -13,7 +13,7 @@ public class WeatherAuthoringEditor : Editor
             (SubSceneGenerator)target;
 
         GUILayout.Space(40); 
-
+        
         if (CustomEditorUtility.SingleLineButton("Generate Sub Scene",CustomEditorIcons.UnityLogo))
             generator.GenerateSubScene();
         

@@ -159,14 +159,12 @@ public class RoadElementEditor : Editor
                     e.Use();
                     break;
             }
-            Debug.Log($"Validate: {e.commandName}");
         }
 
-        if(addNewPoint)
-        {
-            Debug.Log(e.mousePosition);
-            addNewPoint = false;
-        }
+     //   if(addNewPoint)
+      //  {
+            //addNewPoint = false;
+        //}
     }
     private void SelectPoint(RoadNode roadNode)
     {
@@ -199,11 +197,12 @@ public class RoadElementEditor : Editor
         Handles.color = connection is RoadConnection ? roadEditorSettings.HandleLineColor : roadEditorSettings.IntersectionConnectionColor;
         Handles.DrawBezier(startPoint, endPoint, startHandler, endHandler, Color.white, null, 5f);   
         Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
+        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,  road.Width * 0.5f, 30).ToArray());
         Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,0, 30).ToArray());
         Handles.color = roadEditorSettings.MedianStripColor;
         
-        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.HalfMedianStripWidth , 30).ToArray());
-        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.HalfMedianStripWidth, 30).ToArray());
+       // Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.HalfMedianStripWidth , 30).ToArray());
+      //  Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.HalfMedianStripWidth, 30).ToArray());
     }
     private void PrintHandles(RoadNode roadPoint)
     {    
@@ -450,7 +449,6 @@ public class RoadElementEditor : Editor
     {
         if(selectedPoints.Count == 1)
         {
-            Debug.Log("wyko");
             road.CreateIntersection(selectedPoints[0]);
         }
     }

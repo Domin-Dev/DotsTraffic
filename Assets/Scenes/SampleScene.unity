@@ -228,58 +228,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &95526174
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 95526176}
-  - component: {fileID: 95526175}
-  m_Layer: 0
-  m_Name: TrafficGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &95526175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 95526174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2f773493bf148335871d0d4a9b276be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  subScenePath: Assets/Scenes/TrafficSubScene.unity
-  subScene: {fileID: 458888592}
-  surfaceLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  roadSpace: 0
-  editMode: 1
---- !u!4 &95526176
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 95526174}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1534967979}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,7 +486,7 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
---- !u!1 &458888591
+--- !u!1 &509343199
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -546,8 +494,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 458888593}
-  - component: {fileID: 458888592}
+  - component: {fileID: 509343201}
+  - component: {fileID: 509343200}
   m_Layer: 0
   m_Name: SubScene
   m_TagString: Untagged
@@ -555,13 +503,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &458888592
+--- !u!114 &509343200
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 458888591}
+  m_GameObject: {fileID: 509343199}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45a335734b1572644a6a5d09d87adc65, type: 3}
@@ -576,13 +524,13 @@ MonoBehaviour:
       y: 3979823984
       z: 1750434432
       w: 666791327
---- !u!4 &458888593
+--- !u!4 &509343201
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 458888591}
+  m_GameObject: {fileID: 509343199}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -640,7 +588,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1534967977
+--- !u!1 &1969920721
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -648,72 +596,67 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1534967979}
-  - component: {fileID: 1534967978}
+  - component: {fileID: 1969920723}
+  - component: {fileID: 1969920722}
   m_Layer: 0
-  m_Name: RoadElement
+  m_Name: TrafficGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1534967978
+--- !u!114 &1969920722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1534967977}
+  m_GameObject: {fileID: 1969920721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
+  m_Script: {fileID: 11500000, guid: e2f773493bf148335871d0d4a9b276be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Loop: 0
-  ForwardLaneCount: 1
-  BackwardLaneCount: 1
-  MedianStripWidth: 0.1
-  LaneWidth: 0.5
-  rootNode:
-    rid: 7826587995820261465
-  references:
-    version: 2
-    RefIds:
-    - rid: 7826587995820261465
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: 1.0696075, y: 0, z: -4.2658906}
-        links:
-        - rid: 7826587995820261466
-    - rid: 7826587995820261466
-      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
-      data:
-        LocalHandleA: {x: -1, y: 0, z: 0}
-        LocalHandleB: {x: 1, y: 0, z: 0}
-        nodeA:
-          rid: 7826587995820261465
-        nodeB:
-          rid: 7826587995820261467
-    - rid: 7826587995820261467
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: -5.889288, y: 0, z: 5.064167}
-        links:
-        - rid: 7826587995820261466
---- !u!4 &1534967979
+  subScenePath: Assets/Scenes/TrafficSubScene.unity
+  subScene: {fileID: 509343200}
+  surfaceLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  roadSpace: 0
+  editMode: 0
+  spawnerSettings:
+    count: 20
+    carPrefab: {fileID: 6039936713839682850, guid: cf5a786ebfc45b36299972cf5a4ff376, type: 3}
+  bakedRoadElements:
+  - width: 1.1
+    startPoint: {x: 13.395086, y: 0, z: -1.9892373}
+    endPoint: {x: -2.06, y: 0, z: -2.65}
+    startHandler: {x: 11.829058, y: 0, z: 10.972986}
+    endHandler: {x: 4.481545, y: 0, z: 6.5023074}
+  - width: 1.1
+    startPoint: {x: -2.06, y: 0, z: -2.65}
+    endPoint: {x: -16.619217, y: 0, z: -17.975225}
+    startHandler: {x: -6.8187475, y: 0, z: -9.307987}
+    endHandler: {x: -5.2468705, y: 0, z: -16.48936}
+  - width: 1.1
+    startPoint: {x: -16.619217, y: 0, z: -17.975225}
+    endPoint: {x: -37.696453, y: 0, z: -5.9398675}
+    startHandler: {x: -25.121601, y: 0, z: -19.086113}
+    endHandler: {x: -43.188004, y: 0, z: -23.92554}
+--- !u!4 &1969920723
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1534967977}
+  m_GameObject: {fileID: 1969920721}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 95526176}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -723,5 +666,5 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 8347277}
-  - {fileID: 95526176}
-  - {fileID: 458888593}
+  - {fileID: 1969920723}
+  - {fileID: 509343201}
