@@ -170,11 +170,11 @@ public class RoadPointTools : Overlay, ITransientOverlay
                 handleFields.Add(handle);
             
             }
-            positionField.SetValueWithoutNotify(selectedPoint.Position);
         }
         for(int i = 0; i < selectedPoint.links.Count; i++)
             (handleFields[i] as Vector3Field).SetValueWithoutNotify(selectedPoint.links[i].GetLocalHandle(selectedPoint)); 
-}
+        positionField.SetValueWithoutNotify(selectedPoint.Position);
+    }
     private void MultipleSelectedPoints()
     {
         SetVisible(false);

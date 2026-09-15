@@ -16,7 +16,7 @@ public class RoadElementEditor : Editor
 
     #region Shows
     private static bool showHandle = true;
-    private static bool showEditButtons = false;
+   // private static bool showEditButtons = false;
     private static bool showRoadEditorSettings = false;
     #endregion
 
@@ -199,7 +199,7 @@ public class RoadElementEditor : Editor
         Handles.color = connection is RoadConnection ? roadEditorSettings.HandleLineColor : roadEditorSettings.IntersectionConnectionColor;
         Handles.DrawBezier(startPoint, endPoint, startHandler, endHandler, Color.white, null, 5f);   
         Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
-        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.Width * 0.5f, 30).ToArray());
+        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,0, 30).ToArray());
         Handles.color = roadEditorSettings.MedianStripColor;
         
         Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.HalfMedianStripWidth , 30).ToArray());
@@ -333,17 +333,17 @@ public class RoadElementEditor : Editor
     //         Handles.EndGUI();
     //     }
     // }
-    private void PrintArrows(RoadElement road,Vector3 nodePosition,Vector3 nextNodeDir,Vector3 previousNodeDir,Vector3 offsetDirection,Vector3 medianOffset)
-    {
-        float size = HandleUtility.GetHandleSize(nodePosition) * 0.4f;
-        Handles.color = roadEditorSettings.ForwardLaneColor;
-        for(int i = 0; i < road.ForwardLaneCount; i++)
-            Handles.ArrowHandleCap(0,nodePosition + medianOffset + offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(nextNodeDir),size, EventType.Repaint); 
+    // private void PrintArrows(RoadElement road,Vector3 nodePosition,Vector3 nextNodeDir,Vector3 previousNodeDir,Vector3 offsetDirection,Vector3 medianOffset)
+    // {
+    //     float size = HandleUtility.GetHandleSize(nodePosition) * 0.4f;
+    //     Handles.color = roadEditorSettings.ForwardLaneColor;
+    //     for(int i = 0; i < road.ForwardLaneCount; i++)
+    //         Handles.ArrowHandleCap(0,nodePosition + medianOffset + offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(nextNodeDir),size, EventType.Repaint); 
         
-        Handles.color = roadEditorSettings.BackwardLaneColor;
-        for(int i = 0; i < road.BackwardLaneCount; i++)
-            Handles.ArrowHandleCap(0,nodePosition - medianOffset - offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(previousNodeDir),size, EventType.Repaint);       
-    }
+    //     Handles.color = roadEditorSettings.BackwardLaneColor;
+    //     for(int i = 0; i < road.BackwardLaneCount; i++)
+    //         Handles.ArrowHandleCap(0,nodePosition - medianOffset - offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(previousNodeDir),size, EventType.Repaint);       
+    // }
 
 
 
@@ -454,7 +454,4 @@ public class RoadElementEditor : Editor
             road.CreateIntersection(selectedPoints[0]);
         }
     }
-
-
-
 }

@@ -2,8 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-public struct RoadNodeComponent : IComponentData
+public struct ConnectionPointsBufferB : IBufferElementData
 {
-    public Entity RoadElement;
     public float3 Position;
 }

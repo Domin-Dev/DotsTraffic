@@ -44,7 +44,9 @@ public class SubSceneGenerator : MonoBehaviour
     }
     public void BakeRoadNetwork()
     {
-        if (subScene == null || subScene.SceneAsset == null)return;
+        if (subScene == null || subScene.SceneAsset == null) return;
+        editMode = false;
+    
         Scene scene = SceneManager.GetSceneByPath(AssetDatabase.GetAssetPath(subScene.SceneAsset));
 
         if (!scene.isLoaded)
@@ -54,13 +56,41 @@ public class SubSceneGenerator : MonoBehaviour
         {
             var child = transform.GetChild(i);
             child.SetParent(null);
-           // child.AddComponent<RoadElement>();
             SceneManager.MoveGameObjectToScene(child.gameObject, scene);
         }
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
         EditorSceneManager.CloseScene(scene, true);
+    }
+
+    public void OpenEditMode()
+    {
+        if (subScene == null || subScene.SceneAsset == null) return;
+        editMode = true;
+    
+        Scene scene = SceneManager.GetSceneByPath(AssetDatabase.GetAssetPath(subScene.SceneAsset));
+
+        if (!scene.isLoaded)
+            scene = EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(subScene.SceneAsset), OpenSceneMode.Additive);
+
+        Scene targetScene = gameObject.scene;
+        var roadElements = FindObjectsByType<RoadElement>(FindObjectsInactive.Include,FindObjectsSortMode.None);
+        foreach(var element in roadElements)
+        {
+            if (element.gameObject.scene != subScene.EditingScene)
+                continue;
+            element.transform.SetParent(null);
+            SceneManager.MoveGameObjectToScene(element.gameObject, targetScene);
+            element.transform.SetParent(transform);
+        }
+
+        EditorSceneManager.MarkSceneDirty(targetScene);
+        EditorSceneManager.SaveScene(targetScene);      
+        
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
+        EditorSceneManager.CloseScene(scene, true);  
     }
     #endif
 }
