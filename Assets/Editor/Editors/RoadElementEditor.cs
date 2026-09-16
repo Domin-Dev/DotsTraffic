@@ -197,8 +197,9 @@ public class RoadElementEditor : Editor
         Handles.color = connection is RoadConnection ? roadEditorSettings.HandleLineColor : roadEditorSettings.IntersectionConnectionColor;
         Handles.DrawBezier(startPoint, endPoint, startHandler, endHandler, Color.white, null, 5f);   
         Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
-        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,  road.Width * 0.5f, 30).ToArray());
-        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,0, 30).ToArray());
+        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(endPoint, endHandler, startHandler, startPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
+    
+      //  Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,0, 30).ToArray());
         Handles.color = roadEditorSettings.MedianStripColor;
         
        // Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.HalfMedianStripWidth , 30).ToArray());

@@ -137,6 +137,7 @@ public class SubSceneGenerator : MonoBehaviour
 
     public void OnDrawGizmos()
     {
+        if(bakedRoadElements == null) return;
         foreach(var i in bakedRoadElements)
         {
             Handles.color = Color.white;

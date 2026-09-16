@@ -62,8 +62,8 @@ public class RoadElementAuthoring : MonoBehaviour
                 Vector3 startHandler = authoring.transform.TransformPoint(connection.WorldHandleA);
                 Vector3 endHandler = authoring.transform.TransformPoint(connection.WorldHandleB);
 
-                var pointsA = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,null,null, -authoring.Width * 0.5f, 30);
-                var pointsB = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,null,null, authoring.Width * 0.5f, 30);
+                var pointsB = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,null,null, -authoring.Width * 0.5f, 30);
+                var pointsA = BezierUtility.GetOffsetBezier(endPoint, endHandler, startHandler, startPoint,null,null, -authoring.Width * 0.5f, 30);
             
                 foreach(var point in pointsA)
                     AppendToBuffer(connectionEntity, new ConnectionPointsA() { Position = point});    
