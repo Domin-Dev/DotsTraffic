@@ -23,4 +23,14 @@ pojazdów, np. stylu jazdy, przyspieszenia, hamowania czy maksymalnej prędkośc
 - Prosty spawner pojazdów – umożliwia generowanie pojazdów na utworzonej sieci drogowej.
 - Podstawowy ruch pojazdów – pojazdy poruszają się obecnie w sposób losowy po utworzonym grafie dróg, wybierając kolejne dostępne połączenia.
 
+https://github.com/user-attachments/assets/6d3e74c4-c068-4524-9667-ecab76c030f5
+
 ### Funkcjonalności w trakcie realizacji
+Funkcjonalności do realizacji
+- Wyznaczanie tras pojazdów do określonego celu
+- Obsługa skrzyżowań i pierwszeństwa przejazdu
+- Reagowanie pojazdów na innych uczestników ruchu
+
+
+
+
