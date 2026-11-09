@@ -6,6 +6,6 @@ public static class TrafficTools
     [MenuItem("TrafficTools/AddTraffic")]
     private static void AddTraffic()
     {
-        GameObject generator = new GameObject("TrafficGenerator",typeof(SubSceneGenerator));
+        new GameObject("TrafficGenerator",typeof(SubSceneGenerator));
     }
 }

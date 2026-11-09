@@ -46,7 +46,7 @@ public class SubSceneGenerator : MonoBehaviour
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
     
         var entitiesReferences = new GameObject("EntitiesReferences",typeof(EntitiesReferencesAuthoring));
-        entitiesReferences.GetComponent<EntitiesReferencesAuthoring>().vehiclePrefab = spawnerSettings.carPrefab; 
+        entitiesReferences.GetComponent<EntitiesReferencesAuthoring>().vehiclePrefab = spawnerSettings.carPrefab.gameObject; 
         SceneManager.MoveGameObjectToScene(entitiesReferences, scene);
 
         if(EditorSceneManager.SaveScene(scene,subScenePath))

@@ -33,6 +33,14 @@ public abstract class ConnectionBase
         else if(node == nodeB)
             return LocalHandleB;
         return Vector3.zero;
+    }    
+    public Vector3 GetWorldHandle(RoadNode node)
+    {
+        if(node == nodeA)
+            return WorldHandleA;
+        else if(node == nodeB)
+            return WorldHandleB;
+        return Vector3.zero;
     }
     public void SetLocalHandle(RoadNode node,Vector3 handle)
     {

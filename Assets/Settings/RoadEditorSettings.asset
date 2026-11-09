@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MedianStripColor: {r: 1, g: 0, b: 0, a: 1}
   LaneColor: {r: 1, g: 1, b: 1, a: 1}
+  IntersectionConnectionColor: {r: 0, g: 1, b: 0, a: 1}
   ForwardLaneColor: {r: 1, g: 0, b: 1, a: 1}
   BackwardLaneColor: {r: 0, g: 1, b: 1, a: 1}
-  RoadPointColor: {r: 0, g: 0, b: 1, a: 1}
+  RoadPointColor: {r: 1, g: 0, b: 0.9263606, a: 1}
   SelectedRoadPointColor: {r: 0, g: 1, b: 1, a: 1}
   handleColors:
   - {r: 0.8, g: 0, b: 0, a: 1}

@@ -74,7 +74,11 @@ public class RoadElementEditor : Editor
     { 
         Events();
         Tools.hidden = !showHandle;
-        road.rootNode.VisitEdges((ConnectionBase connection) => DrawCurve(connection));
+        List<Vector3> prevPoints = new List<Vector3>();
+        road.rootNode.VisitEdges((ConnectionBase prev,RoadNode node,ConnectionBase connection) => 
+        {
+            DrawCurve(prevPoints,prev,node,connection);
+        });
         road.rootNode.VisitNodes((RoadNode node) => PrintHandles(node));
     }
     public override void OnInspectorGUI()
@@ -183,21 +187,33 @@ public class RoadElementEditor : Editor
         selectedPoints.Clear();
         OnSelectionChanged?.Invoke(selectedPoints);
     }
-    private void DrawCurve(ConnectionBase connection,float offset = 2.0f)
+    private void DrawCurve(List<Vector3> prevPoints,ConnectionBase prev,RoadNode node,ConnectionBase connection,float offset = 2.0f)
     {
-        Vector3 startPoint = road.transform.TransformPoint(connection.nodeA.Position);
-        Vector3 endPoint = road.transform.TransformPoint(connection.nodeB.Position);
+        var second = connection.GetSecond(node);
 
-        Vector3 startHandler = road.transform.TransformPoint(connection.WorldHandleA);
-        Vector3 endHandler = road.transform.TransformPoint(connection.WorldHandleB);
+        Vector3 startPoint = road.transform.TransformPoint(node.Position);
+        Vector3 endPoint = road.transform.TransformPoint(second.Position);
 
-        Vector3? prevStartHandler = null;// road.transform.TransformPoint(currentPoint.HandleB);
-        Vector3? nextEndHandler = null;//road.transform.TransformPoint(nextPoint.HandleA);
+        Vector3 startHandler = road.transform.TransformPoint(connection.GetWorldHandle(node));
+        Vector3 endHandler = road.transform.TransformPoint(connection.GetWorldHandle(second));
+
+        Vector3? prevStartHandler = prev != null ? road.transform.TransformPoint(prev.GetWorldHandle(node)) : null;
+        Vector3? nextEndHandler = second.links.Count > 1 ? road.transform.TransformPoint(second.GetNextConnection(connection).GetWorldHandle(second)) : null;
 
         Handles.color = connection is RoadConnection ? roadEditorSettings.HandleLineColor : roadEditorSettings.IntersectionConnectionColor;
         Handles.DrawBezier(startPoint, endPoint, startHandler, endHandler, Color.white, null, 5f);   
-        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
-        Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(endPoint, endHandler, startHandler, startPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
+        var result = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.Width * 0.5f, 30);
+        prevPoints.AddRange(result);
+        int temp;
+        do
+        {
+            temp = prevPoints.Count;
+            prevPoints = BezierUtility.RemoveSelfIntersections(prevPoints);
+        } 
+        while(temp != prevPoints.Count);
+
+        Handles.DrawAAPolyLine(prevPoints.ToArray());
+        //Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(endPoint, endHandler, startHandler, startPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
     
       //  Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,0, 30).ToArray());
         Handles.color = roadEditorSettings.MedianStripColor;

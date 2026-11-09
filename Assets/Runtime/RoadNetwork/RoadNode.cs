@@ -2,12 +2,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
 [System.Serializable]
 public class RoadNode 
 {
+    public struct NodeVisit
+    {
+        public RoadNode node;
+        public ConnectionBase connection;
+        public NodeVisit(RoadNode node,ConnectionBase connection = null)
+        {
+            this.node = node;
+            this.connection = connection;
+        }
+
+        public static implicit operator NodeVisit(RoadNode node)
+        {
+            return new NodeVisit(node);
+        }
+    }
     public Vector3 Position;
     [SerializeReference] public List<ConnectionBase> links = new ();
 
@@ -23,6 +39,11 @@ public class RoadNode
     public RoadNode(RoadNode roadNode)
     {
         this.Position = roadNode.Position;
+    }
+    
+    public static implicit operator RoadNode(NodeVisit nodeVisit)
+    {
+        return nodeVisit.node;
     }
     public void ConnectRoad(RoadNode roadNode)
     {
@@ -43,7 +64,6 @@ public class RoadNode
         if(!roadNode.links.Any(x => x.Contains(this)))
             roadNode.links.Add(roadConnection);
     }
-    
     public (RoadConnection A, RoadConnection B) GetRoadConnections()
     {
         RoadConnection a = null;
@@ -67,12 +87,12 @@ public class RoadNode
     {
         Visit((visited,stack,node) =>
         {
-            if(node.links.Count <= 1)
+            if(node.node.links.Count <= 1)
             {
                 action.Invoke(node);
                 return true;
             }
-            foreach (var link in node.links)
+            foreach (var link in node.node.links)
                 stack.Push(link.GetSecond(node));
             return false;
         });
@@ -82,7 +102,7 @@ public class RoadNode
         Visit((visited,stack,node) =>
         {
             action.Invoke(node);
-            foreach (var link in node.links)
+            foreach (var link in node.node.links)
                 stack.Push(link.GetSecond(node));
             return false;
         });
@@ -91,7 +111,7 @@ public class RoadNode
     {
         Visit((visited,stack,node) =>
         {
-            foreach (var link in node.links)
+            foreach (var link in node.node.links)
             {
                 var newNode = link.GetSecond(node);
                 if(!visited.Contains(newNode))
@@ -102,22 +122,22 @@ public class RoadNode
             }
             return false;
         });
-    }
-    private void Visit(Func<HashSet<RoadNode>,Stack<RoadNode>,RoadNode,bool> action)
+    }    
+    public void VisitEdges(Action<ConnectionBase,RoadNode,ConnectionBase> action)
     {
-        if(action == null) return;
-        var visited = new HashSet<RoadNode>();
-        var stack = new Stack<RoadNode>();
-        stack.Push(this);
-
-        while (stack.Count > 0)
+        Visit((visited,stack,node) =>
         {
-            var node = stack.Pop();
-            if (!visited.Add(node))
-                continue;       
-            if(action.Invoke(visited,stack,node))
-                return;
-        }
+            foreach (var link in node.node.links)
+            {
+                var newNode = link.GetSecond(node);
+                if(!visited.Contains(newNode))
+                {
+                    action.Invoke(node.connection,node.node,link);
+                    stack.Push(new (newNode,link));
+                }
+            }
+            return false;
+        });
     }
     public void SwitchConnections(RoadNode newNode = null)
     {
@@ -150,4 +170,25 @@ public class RoadNode
             node.links.Remove(element);
         }
     }
+    public ConnectionBase GetNextConnection(params ConnectionBase[] ignore)
+    {
+        if(ignore == null) return links.FirstOrDefault();
+        return links.FirstOrDefault(x => !ignore.Contains(x));
+    }
+    private void Visit(Func<HashSet<RoadNode>,Stack<NodeVisit>,NodeVisit,bool> action)
+    {
+        if(action == null) return;
+        var visited = new HashSet<RoadNode>();
+        var stack = new Stack<NodeVisit>();
+        stack.Push(new NodeVisit(this));
+
+        while (stack.Count > 0)
+        {
+            var node = stack.Pop();
+            if (!visited.Add(node.node))
+                continue;       
+            if(action.Invoke(visited,stack,node))
+                return;
+        }
+    }    
 }

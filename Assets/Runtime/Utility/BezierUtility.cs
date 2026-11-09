@@ -65,7 +65,6 @@ public static class BezierUtility
             Vector3 offsetDirection = math.normalizesafe(math.cross(tangent.normalized, Vector3.up));
             rawOffsetPoints.Add(pos + offsetDirection * offset);
         }
-
         return RemoveSelfIntersections(rawOffsetPoints);
     }
     public static List<Vector3> RemoveSelfIntersections(List<Vector3> points)

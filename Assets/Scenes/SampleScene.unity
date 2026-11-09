@@ -486,6 +486,113 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &758722329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 758722330}
+  - component: {fileID: 758722331}
+  m_Layer: 0
+  m_Name: RoadElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &758722330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758722329}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.48, y: 0, z: 1.63}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 933025333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &758722331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758722329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Loop: 0
+  ForwardLaneCount: 1
+  BackwardLaneCount: 1
+  MedianStripWidth: 0.1
+  LaneWidth: 0.5
+  rootNode:
+    rid: 4858626656362037330
+  references:
+    version: 2
+    RefIds:
+    - rid: 4858626656362037330
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 1, y: 0, z: 0}
+        links:
+        - rid: 4858626656362037331
+    - rid: 4858626656362037331
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -1, y: 0, z: 0}
+        LocalHandleB: {x: -3.5199127, y: 0, z: -2.9702034}
+        nodeA:
+          rid: 4858626656362037330
+        nodeB:
+          rid: 4858626656362037332
+    - rid: 4858626656362037332
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: -7.7644677, y: 0, z: -2.0746207}
+        links:
+        - rid: 4858626656362037331
+        - rid: 4858626656362037333
+    - rid: 4858626656362037333
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -71.52959, y: 0, z: 280.31293}
+        LocalHandleB: {x: -3.5199127, y: -0.9, z: -2.9702034}
+        nodeA:
+          rid: 4858626656362037332
+        nodeB:
+          rid: 4858626656362037334
+    - rid: 4858626656362037334
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: -11.353634, y: 0, z: 5.487134}
+        links:
+        - rid: 4858626656362037333
+        - rid: 4858626656362037335
+    - rid: 4858626656362037335
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -71.52959, y: -305.7446, z: 280.31293}
+        LocalHandleB: {x: 4.6218424, y: 0, z: 0.10581398}
+        nodeA:
+          rid: 4858626656362037334
+        nodeB:
+          rid: 4858626656362037336
+    - rid: 4858626656362037336
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: -18.25507, y: 0, z: 5.045971}
+        links:
+        - rid: 4858626656362037335
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +642,116 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &933025331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933025333}
+  - component: {fileID: 933025332}
+  m_Layer: 0
+  m_Name: TrafficGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &933025332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933025331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f773493bf148335871d0d4a9b276be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subScenePath: Assets/Scenes/TrafficSubScene.unity
+  subScene: {fileID: 1505684786}
+  surfaceLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  roadSpace: 0
+  editMode: 1
+  spawnerSettings:
+    count: 20
+    carPrefab: {fileID: 1177576778981336814, guid: cf5a786ebfc45b36299972cf5a4ff376, type: 3}
+  bakedRoadElements: []
+--- !u!4 &933025333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933025331}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 758722330}
+  - {fileID: 1505684787}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1505684785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1505684787}
+  - component: {fileID: 1505684786}
+  m_Layer: 0
+  m_Name: SubScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1505684786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505684785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a335734b1572644a6a5d09d87adc65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SceneAsset: {fileID: 102900000, guid: a9d5ec0b07b473de08285586f9d6eb72, type: 3}
+  _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  AutoLoadScene: 1
+  _SceneGUID:
+    Value:
+      x: 2966314394
+      y: 3979823984
+      z: 1750434432
+      w: 666791327
+--- !u!4 &1505684787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505684785}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 933025333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -543,3 +760,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 8347277}
+  - {fileID: 933025333}
