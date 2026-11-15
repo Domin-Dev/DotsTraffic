@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Overlays;
 using UnityEditor.VersionControl;
@@ -112,9 +113,12 @@ public class RoadPointTools : Overlay, ITransientOverlay
         RoadElementEditor.OnSelectionChanged -= UpdateSelection;
         RoadElementEditor.OnTargetChanged -= UpdateTarget;
     }
-    private void UpdateSelection(List<RoadNode> roadPoints)
+    private void UpdateSelection(List<ISelectable> roadPoints, Type type)
     {
-        this.roadPoints = roadPoints;
+        if(type == typeof(RoadNode))
+            this.roadPoints = roadPoints.Cast<RoadNode>().ToList();
+        else
+            this.roadPoints = null;
         RefreshUI();
     }
     private void UpdateTarget(RoadElement roadElement)

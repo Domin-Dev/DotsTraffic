@@ -10,24 +10,28 @@ using UnityEngine;
 public class RoadElementEditor : Editor
 {   
     #region Events
-    public static event Action<List<RoadNode>> OnSelectionChanged;
+    public static event Action<List<ISelectable>,Type> OnSelectionChanged;
     public static event Action<RoadElement> OnTargetChanged;
     #endregion
 
     #region Shows
-    private static bool showHandle = true;
-   // private static bool showEditButtons = false;
-    private static bool showRoadEditorSettings = false;
+    private static bool showPositionHandle = true;
+    private static bool showConnectionHandles = true;
+    private static bool showNodeHandles = true;
     #endregion
 
     #region Selected
     public static HandleMode selectedHandleMode { private set; get; } = HandleMode.Free; 
-    private static RoadNode selectedPoint => selectedPoints[0];
-    private static List<RoadNode> selectedPoints = new List<RoadNode>();
-    private static bool PointIsSelected => selectedPoints.Count > 0;   
+    
+    private static ISelectable selected => selectedObjects[0];
+    private static List<ISelectable> selectedObjects = new List<ISelectable>();
+    private static Type selectedType;
+    private static bool IsSelected => selectedObjects.Count > 0; 
+
     private static RoadElement road;
     #endregion
  
+    private static bool openRoadEditorSettings = false;
     private static Editor roadEditorSettingsEditor;
     public static RoadEditorSettings roadEditorSettings;
     private static bool addNewPoint = false;
@@ -48,7 +52,7 @@ public class RoadElementEditor : Editor
         RoadPointTools.OnClickConnectButton += ConnectNodes;
         RoadPointTools.OnClickDisconnectButton += DisconnectNodes;
 
-        Undo.undoRedoPerformed += UndoRedo;
+        Undo.undoRedoPerformed += UpdateSelection;
     }
     private void OnDisable()
     {
@@ -63,7 +67,7 @@ public class RoadElementEditor : Editor
         RoadPointTools.OnClickConnectButton -= ConnectNodes;
         RoadPointTools.OnClickDisconnectButton -= DisconnectNodes;
 
-        Undo.undoRedoPerformed -= UndoRedo;
+        Undo.undoRedoPerformed -= UpdateSelection;
     }
     private void FocusChanged()
     {
@@ -73,13 +77,30 @@ public class RoadElementEditor : Editor
     public void OnSceneGUI()
     { 
         Events();
-        Tools.hidden = !showHandle;
+        Tools.hidden = !showPositionHandle;
         List<Vector3> prevPoints = new List<Vector3>();
-        road.rootNode.VisitEdges((ConnectionBase prev,RoadNode node,ConnectionBase connection) => 
+
+        if(showConnectionHandles)
+            road.rootNode.VisitEdges((ConnectionBase prev,RoadNode node,ConnectionBase connection) => 
+            {
+                DrawCurve(prevPoints,prev,node,connection);
+                DisplayConnectionHandlers(connection);
+            });
+        else
+            road.rootNode.VisitEdges((ConnectionBase prev,RoadNode node,ConnectionBase connection) => DrawCurve(prevPoints,prev,node,connection));
+        
+        if(showNodeHandles) road.rootNode.VisitNodes((RoadNode node) => DisplayNodeHandles(node));
+
+        int temp;
+        do
         {
-            DrawCurve(prevPoints,prev,node,connection);
-        });
-        road.rootNode.VisitNodes((RoadNode node) => PrintHandles(node));
+            temp = prevPoints.Count;
+            prevPoints = BezierUtility.RemoveSelfIntersections(prevPoints);
+        } 
+        while(temp != prevPoints.Count);
+
+
+        Handles.DrawAAPolyLine( (prevPoints).ToArray());
     }
     public override void OnInspectorGUI()
     {        
@@ -88,10 +109,10 @@ public class RoadElementEditor : Editor
         EditorGUILayout.BeginHorizontal();
         
         if (CustomEditorUtility.SingleLineButton("One-way",CustomEditorIcons.UpArrow))
-            RecordAction(road,"One-way",road.ChangeToOneWayRoad);
+            RecordAction(road,"One-way",road.settings.ChangeToOneWayRoad);
         
         if (CustomEditorUtility.SingleLineButton("Change Direction",CustomEditorIcons.ChangeDirection))
-            RecordAction(road,"Change Direction",road.ChangeDirection);
+            RecordAction(road,"Change Direction",road.settings.ChangeDirection);
  
         if (CustomEditorUtility.SingleLineButton("Project to Surface",CustomEditorIcons.ProjectToSurface))
             RecordAction(road,"Project to Surface",road.ProjectToSurface);
@@ -109,8 +130,8 @@ public class RoadElementEditor : Editor
         EditorGUILayout.Separator();
         using (var check = new EditorGUI.ChangeCheckScope())
         {
-            showRoadEditorSettings = EditorGUILayout.InspectorTitlebar(showRoadEditorSettings, roadEditorSettings);
-            if (showRoadEditorSettings)
+            openRoadEditorSettings = EditorGUILayout.InspectorTitlebar(openRoadEditorSettings, roadEditorSettings);
+            if (openRoadEditorSettings)
             {
                 CreateCachedEditor(roadEditorSettings, null, ref roadEditorSettingsEditor);
                 roadEditorSettingsEditor.OnInspectorGUI();
@@ -126,8 +147,9 @@ public class RoadElementEditor : Editor
         EditorGUILayout.BeginHorizontal();
         GUIStyle toggleButton = new GUIStyle(GUI.skin.button);
 
-      //  showEditButtons = DrawToggle(toggleButton,"Show Edit Buttons",showEditButtons);
-        showHandle = DrawToggle(toggleButton,"Show Position Handle",showHandle);
+        showPositionHandle = DrawToggle(toggleButton,"Show Position Handle",showPositionHandle);
+        showConnectionHandles = DrawToggle(toggleButton,"Show Connection Handles",showConnectionHandles);
+        showNodeHandles = DrawToggle(toggleButton,"Show Node Handles",showNodeHandles);
 
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Separator();
@@ -143,8 +165,6 @@ public class RoadElementEditor : Editor
         }    
         return currentValue;
     }
-
-
     private void Events()
     {
         Event e = Event.current;
@@ -170,22 +190,34 @@ public class RoadElementEditor : Editor
             //addNewPoint = false;
         //}
     }
-    private void SelectPoint(RoadNode roadNode)
+    private void SelectObject(ISelectable obj)
     {
-        selectedPoints.Clear();
-        selectedPoints.Add(roadNode);
-        OnSelectionChanged?.Invoke(selectedPoints);
+        selectedObjects.Clear();
+        selectedObjects.Add(obj);
+        selectedType = obj.GetType();
+        UpdateSelection();
     }
-    private void SelectMultiplePoints(RoadNode roadNode)
+    private void SelectMultipleObjects(ISelectable obj)
     {
         selectedHandleMode = HandleMode.Free;
-        selectedPoints.Add(roadNode);
-        OnSelectionChanged?.Invoke(selectedPoints);
+        var newType = obj.GetType();
+        if(newType != selectedType)
+        {
+            selectedObjects.Clear();
+            selectedType = newType;
+        }
+        selectedObjects.Add(obj);
+        UpdateSelection();
     }
     private void Deselect()
     {
-        selectedPoints.Clear();
-        OnSelectionChanged?.Invoke(selectedPoints);
+        selectedObjects.Clear();
+        selectedType = null;
+        UpdateSelection();
+    }
+    private void UpdateSelection()
+    {
+        OnSelectionChanged?.Invoke(selectedObjects,selectedType);
     }
     private void DrawCurve(List<Vector3> prevPoints,ConnectionBase prev,RoadNode node,ConnectionBase connection,float offset = 2.0f)
     {
@@ -202,17 +234,9 @@ public class RoadElementEditor : Editor
 
         Handles.color = connection is RoadConnection ? roadEditorSettings.HandleLineColor : roadEditorSettings.IntersectionConnectionColor;
         Handles.DrawBezier(startPoint, endPoint, startHandler, endHandler, Color.white, null, 5f);   
-        var result = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.Width * 0.5f, 30);
+        var result = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.settings.Width * 0.5f, 50);
         prevPoints.AddRange(result);
-        int temp;
-        do
-        {
-            temp = prevPoints.Count;
-            prevPoints = BezierUtility.RemoveSelfIntersections(prevPoints);
-        } 
-        while(temp != prevPoints.Count);
 
-        Handles.DrawAAPolyLine(prevPoints.ToArray());
         //Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(endPoint, endHandler, startHandler, startPoint,prevStartHandler,nextEndHandler, -road.Width * 0.5f, 30).ToArray());
     
       //  Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler,0, 30).ToArray());
@@ -221,12 +245,12 @@ public class RoadElementEditor : Editor
        // Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.HalfMedianStripWidth , 30).ToArray());
       //  Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.HalfMedianStripWidth, 30).ToArray());
     }
-    private void PrintHandles(RoadNode roadPoint)
+    private void DisplayNodeHandles(RoadNode roadPoint)
     {    
         Vector3 worldPoint = road.transform.TransformPoint(roadPoint.Position);
-        float size = HandleUtility.GetHandleSize(worldPoint) * 0.4f;
+        float size = HandleUtility.GetHandleSize(worldPoint) * roadEditorSettings.RoadPointSize;
 
-        if(selectedPoints.Contains(roadPoint))
+        if(selectedObjects.Contains(roadPoint))
         {
             Handles.color = roadEditorSettings.SelectedRoadPointColor;
             Handles.SphereHandleCap(0,worldPoint,Quaternion.identity,size,EventType.Repaint);
@@ -256,13 +280,38 @@ public class RoadElementEditor : Editor
             if (Handles.Button(worldPoint, Quaternion.identity, size,size, Handles.SphereHandleCap))
             {
                 if(Event.current.control)
-                    SelectMultiplePoints(roadPoint);
+                    SelectMultipleObjects(roadPoint);
                 else
-                    SelectPoint(roadPoint);
+                    SelectObject(roadPoint);
             }
         }
     }
-    private void UndoRedo() => OnSelectionChanged?.Invoke(selectedPoints);
+    private void DisplayConnectionHandlers(ConnectionBase connectionBase)
+    {
+        Vector3 worldPoint = connectionBase.Bezier(road,0.5f);
+        float size = HandleUtility.GetHandleSize(worldPoint) * roadEditorSettings.ConnectionPointSize;
+
+
+        if(selectedObjects.Contains(connectionBase))
+        {
+            Handles.color = roadEditorSettings.ConnectionPointColor;
+            Handles.CubeHandleCap(0,worldPoint,Quaternion.identity,size,EventType.Repaint);
+        }
+        else
+        {
+            Handles.color = roadEditorSettings.SelectedConnectionPointColor;
+            if (Handles.Button(worldPoint, Quaternion.identity, size,size, Handles.CubeHandleCap))
+            {
+                if(Event.current.control)
+                    SelectMultipleObjects(connectionBase);
+                else
+                    SelectObject(connectionBase);
+            }
+        }
+        
+    }
+
+    
 
     // private void PrintLines(RoadElement road)
     // {
@@ -410,17 +459,17 @@ public class RoadElementEditor : Editor
     }
     private void ChangePosition(Vector3 newPosition)
     {
-        if(PointIsSelected)
-            ChangePosition(selectedPoint,newPosition);
+        if(IsSelected && selectedType == typeof(RoadNode))
+            ChangePosition(selected as RoadNode,newPosition);
     }
     private void DeletePoints()
     {
-        if(PointIsSelected)
+        if(IsSelected && selectedType == typeof(RoadNode))
         {
             RecordAction(road,"Delete Points",() =>
             {
-                foreach(var selected in selectedPoints)
-                    road.DeletePoint(selected);
+                foreach(var selected in selectedObjects)
+                    road.DeletePoint(selected as RoadNode);
             });
             Deselect();
         }
@@ -431,42 +480,38 @@ public class RoadElementEditor : Editor
     }
     private void DuplicatePoint()
     {
-        DuplicatePoint(selectedPoint);
+        DuplicatePoint(selected as RoadNode);
     }
     private void RecordAction(RoadElement roadElement,string actionName, Action action)
     {
         Undo.RegisterCompleteObjectUndo(roadElement, actionName);
         action();
         EditorUtility.SetDirty(roadElement);
-        OnSelectionChanged?.Invoke(selectedPoints);
+        UpdateSelection();
     }
 
     [Shortcut("TrafficTools/ConnectNodes",typeof(SceneView), KeyCode.Q, ShortcutModifiers.Control)]
     private static void ConnectNodes()
     {
-        if(selectedPoints.Count > 1)
-        {
-            selectedPoints[0].ConnectRoad(selectedPoints[1]);
-        }
+        if(selectedType == typeof(RoadNode) && selectedObjects.Count > 1)
+            (selectedObjects[0] as RoadNode).ConnectRoad(selectedObjects[1] as RoadNode);
     }
 
     [Shortcut("TrafficTools/DisconnectNodes",typeof(SceneView), KeyCode.W, ShortcutModifiers.Control)]
     private static void DisconnectNodes()
     {
-        if(selectedPoints.Count > 1)
+        if(selectedType == typeof(RoadNode) && selectedObjects.Count > 1)
         {
-            for (int i = 0; i < selectedPoints.Count; i++)
-                for (int k = i + 1; k < selectedPoints.Count; k++)
-                    selectedPoints[i].RemoveConnectionsWithNode(selectedPoints[k]);
+            for (int i = 0; i < selectedObjects.Count; i++)
+                for (int k = i + 1; k < selectedObjects.Count; k++)
+                    (selectedObjects[i] as RoadNode).RemoveConnectionsWithNode(selectedObjects[k] as RoadNode);
         }
     }
 
     [Shortcut("TrafficTools/CreateIntersection",typeof(SceneView), KeyCode.E, ShortcutModifiers.Control)]
     private static void CreateIntersection()
     {
-        if(selectedPoints.Count == 1)
-        {
-            road.CreateIntersection(selectedPoints[0]);
-        }
+        if(selectedObjects.Count == 1 && selectedType == typeof(RoadNode))
+            road.CreateIntersection(selectedObjects[0] as RoadNode);
     }
 }

@@ -17,8 +17,12 @@ MonoBehaviour:
   IntersectionConnectionColor: {r: 0, g: 1, b: 0, a: 1}
   ForwardLaneColor: {r: 1, g: 0, b: 1, a: 1}
   BackwardLaneColor: {r: 0, g: 1, b: 1, a: 1}
-  RoadPointColor: {r: 1, g: 0, b: 0.9263606, a: 1}
+  RoadPointColor: {r: 0, g: 0, b: 1, a: 1}
   SelectedRoadPointColor: {r: 0, g: 1, b: 1, a: 1}
+  RoadPointSize: 0.4
+  ConnectionPointColor: {r: 1, g: 0, b: 0, a: 1}
+  SelectedConnectionPointColor: {r: 1, g: 0, b: 1, a: 1}
+  ConnectionPointSize: 0.2
   handleColors:
   - {r: 0.8, g: 0, b: 0, a: 1}
   - {r: 0.8, g: 0.48000002, b: 0, a: 1}
@@ -30,7 +34,5 @@ MonoBehaviour:
   - {r: 0.15999985, g: 0, b: 0.8, a: 1}
   - {r: 0.64000016, g: 0, b: 0.8, a: 1}
   - {r: 0.8, g: 0, b: 0.48000032, a: 1}
-  HandleAColor: {r: 1, g: 0, b: 0, a: 1}
-  HandleBColor: {r: 0, g: 1, b: 0, a: 1}
   HandleLineColor: {r: 1, g: 1, b: 1, a: 1}
   handleSizeRelativeToRoadPoint: 0.75

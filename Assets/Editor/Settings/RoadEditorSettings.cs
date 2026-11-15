@@ -14,12 +14,15 @@ public class RoadEditorSettings : ScriptableObject
     [Header("Road Point")]
     public Color RoadPointColor = Color.blue;
     public Color SelectedRoadPointColor = Color.cyan;
+    [Range(0.15f,2f)] public float RoadPointSize = 0.4f;
+    [Header("Connection Point")]
+    public Color ConnectionPointColor = Color.red;
+    public Color SelectedConnectionPointColor = Color.magenta;
+    [Range(0.1f,2f)] public float ConnectionPointSize = 0.2f;
     [Header("Handles")]
     public Color[] handleColors = GenerateColors(10,1f,0.8f);
-    public Color HandleAColor = Color.red;
-    public Color HandleBColor = Color.green;
     public Color HandleLineColor = Color.white;
-    [Range(0,2f)] public float handleSizeRelativeToRoadPoint = 0.75f;
+    [Range(0.15f,2f)] public float handleSizeRelativeToRoadPoint = 0.75f;
 
 
     #if UNITY_EDITOR

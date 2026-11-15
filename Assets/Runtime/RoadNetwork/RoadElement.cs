@@ -1,45 +1,10 @@
-
-using System.Collections.Generic;
 using System.Linq;
-using Unity.Entities.UniversalDelegates;
-using Unity.Mathematics;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 
 public class RoadElement : MonoBehaviour
 {    
-    public bool Loop;
-    [Range(0,15)]
-    public int ForwardLaneCount = 1;
-    [Range(0,15)]
-    public int BackwardLaneCount = 1;
-    [Min(0)]
-    public float MedianStripWidth = 0.1f;
-    [Min(0.001f)]
-    public float LaneWidth = 0.5f;
+    [SerializeField] public RoadConnectionSettings settings;
     [HideInInspector] [SerializeReference] public RoadNode rootNode = new RoadNode(Vector3.right,Vector3.left);
-    public float ForwardRoadwayWidth => ForwardLaneCount * LaneWidth;
-    public float BackwardRoadwayWidth => BackwardLaneCount * LaneWidth;
-    public float HalfMedianStripWidth => MedianStripWidth * 0.5f;
-    public float MedianStripOffset => (BackwardLaneCount - ForwardLaneCount) * LaneWidth;
-    public float Width => MedianStripWidth + LaneWidth * (ForwardLaneCount + BackwardLaneCount);
-
-    public void ChangeToOneWayRoad()
-    {
-        ForwardLaneCount += BackwardLaneCount;
-        BackwardLaneCount = 0;
-        MedianStripWidth = 0;
-    }
-    public void ChangeDirection()
-    {
-        int temp = BackwardLaneCount;;
-        BackwardLaneCount = ForwardLaneCount;
-        ForwardLaneCount = temp;
-    }
     public void ProjectToSurface()
     {
         if(transform.parent.TryGetComponent<SubSceneGenerator>(out var generator))

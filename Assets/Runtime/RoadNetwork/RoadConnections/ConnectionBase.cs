@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public abstract class ConnectionBase
+public abstract class ConnectionBase : ISelectable
 {
     public Vector3 LocalHandleA;
     public Vector3 LocalHandleB;

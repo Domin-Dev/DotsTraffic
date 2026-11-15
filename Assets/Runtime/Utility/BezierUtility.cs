@@ -5,6 +5,14 @@ using UnityEngine;
 
 public static class BezierUtility
 {
+    public static Vector3 Bezier(this ConnectionBase connectionBase, RoadElement road, float t)
+    {
+        Vector3 startPoint = road.transform.TransformPoint(connectionBase.nodeA.Position);
+        Vector3 endPoint = road.transform.TransformPoint(connectionBase.nodeB.Position);
+        Vector3 startHandler = road.transform.TransformPoint(connectionBase.WorldHandleA);
+        Vector3 endHandler = road.transform.TransformPoint(connectionBase.WorldHandleB);
+        return Bezier(startPoint, startHandler, endHandler, endPoint, t);
+    }
     public static Vector3 Bezier(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
     {
         float u = 1f - t;
@@ -41,7 +49,7 @@ public static class BezierUtility
         };
     }
     public static List<Vector3> GetOffsetBezier( Vector3 startPoint, Vector3 startHandler, Vector3 endHandler, Vector3 endPoint,
-    Vector3? prevStartHandler, Vector3? nextEndHandler, float offset, int segments = 30)
+    Vector3? prevStartHandler, Vector3? nextEndHandler, float offset, int segments = 40)
     {
         List<Vector3> rawOffsetPoints = new List<Vector3>();
 
@@ -65,7 +73,7 @@ public static class BezierUtility
             Vector3 offsetDirection = math.normalizesafe(math.cross(tangent.normalized, Vector3.up));
             rawOffsetPoints.Add(pos + offsetDirection * offset);
         }
-        return RemoveSelfIntersections(rawOffsetPoints);
+        return rawOffsetPoints;
     }
     public static List<Vector3> RemoveSelfIntersections(List<Vector3> points)
     {

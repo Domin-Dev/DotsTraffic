@@ -13,13 +13,7 @@ public class RoadElementAuthoring : MonoBehaviour
         public override void Bake(RoadElement authoring)
         {    
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);    
-            AddComponent(entity,new RoadElementComponent()
-            {
-                BackwardLaneCount = authoring.BackwardLaneCount,
-                ForwardLaneCount = authoring.ForwardLaneCount,
-                MedianStripWidth = authoring.MedianStripWidth,
-                LaneWidth = authoring.LaneWidth,
-            });
+            AddComponent(entity,new RoadElementComponent(authoring.settings));
 
             Dictionary<RoadNode,Entity> entities = new Dictionary<RoadNode, Entity>();
             int index = 0;
@@ -62,8 +56,8 @@ public class RoadElementAuthoring : MonoBehaviour
                 Vector3 startHandler = authoring.transform.TransformPoint(connection.WorldHandleA);
                 Vector3 endHandler = authoring.transform.TransformPoint(connection.WorldHandleB);
 
-                var pointsB = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,null,null, -authoring.Width * 0.5f, 30);
-                var pointsA = BezierUtility.GetOffsetBezier(endPoint, endHandler, startHandler, startPoint,null,null, -authoring.Width * 0.5f, 30);
+                var pointsB = BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,null,null, -authoring.settings.Width * 0.5f, 30);
+                var pointsA = BezierUtility.GetOffsetBezier(endPoint, endHandler, startHandler, startPoint,null,null, -authoring.settings.Width * 0.5f, 30);
             
                 foreach(var point in pointsA)
                     AppendToBuffer(connectionEntity, new ConnectionPointsA() { Position = point});    

@@ -83,7 +83,7 @@ public class SubSceneGenerator : MonoBehaviour
             {
                 bakedRoadElements.Add(new DebugNode()
                 {
-                    width = roadElement.Width, 
+                    width = roadElement.settings.Width, 
                     startPoint = child.transform.TransformPoint(connection.nodeA.Position),
                     endPoint = child.transform.TransformPoint(connection.nodeB.Position),
                     startHandler = child.transform.TransformPoint(connection.WorldHandleA),
