@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RoadElement : MonoBehaviour
 {    
-    [SerializeField] public RoadConnectionSettings settings;
+    public RoadConnectionSettings settings;
     [HideInInspector] [SerializeReference] public RoadNode rootNode = new RoadNode(Vector3.right,Vector3.left);
     public void ProjectToSurface()
     {

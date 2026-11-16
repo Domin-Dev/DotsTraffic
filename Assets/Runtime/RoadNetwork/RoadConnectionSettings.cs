@@ -11,7 +11,7 @@ public class RoadConnectionSettings
     public int BackwardLaneCount = 1;
     [Min(0)]
     public float MedianStripWidth = 0.1f;
-    [Min(0.001f)]
+    [Min(0.0001f)]
     public float LaneWidth = 0.5f;
 
     public float ForwardRoadwayWidth => ForwardLaneCount * LaneWidth;
