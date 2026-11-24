@@ -117,16 +117,16 @@ public class RoadElementEditor : Editor
         serializedObject.Update();
 
         bool selectedInEdit = IsSelected && selectedType == typeof(RoadConnection);
-        RoadConnectionSettings[] settings = selectedInEdit ? 
+        RoadConnectionSettings[] connectionSettings = selectedInEdit ? 
             selectedObjects.Cast<RoadConnection>().Select(x => x.settings).ToArray() : 
             new []{road.settings};
 
         EditorGUILayout.BeginHorizontal();
         if (CustomEditorUtility.SingleLineButton("One-way",CustomEditorIcons.UpArrow))
-            RecordAction(road,"One-way",road.settings.ChangeToOneWayRoad);
+            RecordAction(road,"One-way",() => { foreach (var item in connectionSettings)item.ChangeToOneWayRoad();});
         
         if (CustomEditorUtility.SingleLineButton("Change Direction",CustomEditorIcons.ChangeDirection))
-            RecordAction(road,"Change Direction",road.settings.ChangeDirection);
+            RecordAction(road,"Change Direction",() => { foreach (var item in connectionSettings)item.ChangeDirection();});
  
         if (CustomEditorUtility.SingleLineButton("Project to Surface",CustomEditorIcons.ProjectToSurface))
             RecordAction(road,"Project to Surface",road.ProjectToSurface);
@@ -135,15 +135,17 @@ public class RoadElementEditor : Editor
 
         EditorGUI.BeginChangeCheck();
 
-        EditorGUI.showMixedValue = settings.All(x => x.ForwardLaneCount == settings[0].ForwardLaneCount);
-        //EditorGUILayout.IntSlider("Forward Lane Count",settings[0].ForwardLaneCount,0,20));
+        CustomEditorUtility.IntSlider(connectionSettings,
+        "Forward Lane Count",(x,v) => x.ForwardLaneCount = v,(x) => x.ForwardLaneCount,0,20);
+        CustomEditorUtility.IntSlider(connectionSettings,
+        "Backward Lane Count",(x,v) => x.BackwardLaneCount = v,(x) => x.BackwardLaneCount,0,20);
         
-        //settings.BackwardLaneCount = EditorGUILayout.IntSlider("Backward Lane Count",settings.BackwardLaneCount,0,20);
-        //settings.MedianStripWidth = Math.Max(0,EditorGUILayout.FloatField("Median Strip Width",settings.MedianStripWidth));
-      //  settings.LaneWidth = Math.Max(0.00001f,EditorGUILayout.FloatField("Lane Width",settings.LaneWidth));
-        
-        EditorGUI.showMixedValue = false;
+        CustomEditorUtility.FloatField(connectionSettings,
+        "Median Strip Width",(x,v) => x.MedianStripWidth = v,(x) => x.MedianStripWidth,0);        
+        CustomEditorUtility.FloatField(connectionSettings,
+        "Lane Width",(x,v) => x.LaneWidth = v,(x) => x.LaneWidth,0.00001f);
 
+        EditorGUI.showMixedValue = false;
         EditorGUILayout.Separator();
         if(!selectedInEdit)
         {
@@ -156,9 +158,12 @@ public class RoadElementEditor : Editor
             Undo.RegisterCompleteObjectUndo(road,"Value Changed");
             EditorUtility.SetDirty(target);
         }
-
         serializedObject.ApplyModifiedProperties();
     }
+
+    
+
+
     private void DrawRoadSettings()
     {
         EditorGUILayout.Separator();
