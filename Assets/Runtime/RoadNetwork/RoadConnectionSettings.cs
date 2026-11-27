@@ -1,5 +1,3 @@
-
-
 using UnityEngine;
 
 [System.Serializable]
@@ -20,6 +18,13 @@ public class RoadConnectionSettings
     public float MedianStripOffset => (BackwardLaneCount - ForwardLaneCount) * LaneWidth;
     public float Width => MedianStripWidth + LaneWidth * (ForwardLaneCount + BackwardLaneCount);
 
+    public RoadConnectionSettings(RoadConnectionSettings settings)
+    {
+        this.ForwardLaneCount = settings.ForwardLaneCount;
+        this.BackwardLaneCount = settings.BackwardLaneCount;
+        this.MedianStripWidth = settings.MedianStripWidth;
+        this.LaneWidth = settings.LaneWidth;
+    }
     public void ChangeToOneWayRoad()
     {
         ForwardLaneCount += BackwardLaneCount;

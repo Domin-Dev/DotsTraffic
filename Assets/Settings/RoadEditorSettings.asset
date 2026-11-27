@@ -22,7 +22,7 @@ MonoBehaviour:
   RoadPointSize: 0.4
   ConnectionPointColor: {r: 1, g: 0, b: 0, a: 1}
   SelectedConnectionPointColor: {r: 1, g: 0, b: 1, a: 1}
-  ConnectionPointSize: 0.2
+  ConnectionPointSize: 0.289
   handleColors:
   - {r: 0.8, g: 0, b: 0, a: 1}
   - {r: 0.8, g: 0.48000002, b: 0, a: 1}

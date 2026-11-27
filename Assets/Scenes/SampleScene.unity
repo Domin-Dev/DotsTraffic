@@ -365,170 +365,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!1 &332476487
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 332476488}
-  - component: {fileID: 332476489}
-  m_Layer: 0
-  m_Name: RoadElementRoadElement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &332476488
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332476487}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.3, y: 0, z: 1.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1578381330}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &332476489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332476487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    ForwardLaneCount: 10
-    BackwardLaneCount: 4
-    MedianStripWidth: 3.15
-    LaneWidth: 0.00001
-  rootNode:
-    rid: 4858626814396072002
-  references:
-    version: 2
-    RefIds:
-    - rid: 4858626814396072002
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: 5.2251625, y: 0, z: -1.5725987}
-        links:
-        - rid: 4858626814396072003
-    - rid: 4858626814396072003
-      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
-      data:
-        LocalHandleA: {x: -5.863642, y: 0, z: 0.6187484}
-        LocalHandleB: {x: -1.292409, y: 1.9279118, z: -8.772986}
-        nodeA:
-          rid: 4858626814396072002
-        nodeB:
-          rid: 4858626814396072004
-        settings:
-          ForwardLaneCount: 1
-          BackwardLaneCount: 1
-          MedianStripWidth: 0.1
-          LaneWidth: 0.5
-    - rid: 4858626814396072004
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: -4.75805, y: 0, z: 6.3573055}
-        links:
-        - rid: 4858626814396072003
-        - rid: 4858626814396072005
-    - rid: 4858626814396072005
-      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
-      data:
-        LocalHandleA: {x: 1.292409, y: -1.9279118, z: 8.772986}
-        LocalHandleB: {x: -2.8202715, y: 1.9279118, z: 10.080824}
-        nodeA:
-          rid: 4858626814396072004
-        nodeB:
-          rid: 4858626814396072006
-        settings:
-          ForwardLaneCount: 1
-          BackwardLaneCount: 1
-          MedianStripWidth: 0.1
-          LaneWidth: 0.5
-    - rid: 4858626814396072006
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: -15.648139, y: -3.8558235, z: 8.832788}
-        links:
-        - rid: 4858626814396072005
-        - rid: 4858626814396072007
-    - rid: 4858626814396072007
-      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
-      data:
-        LocalHandleA: {x: 2.8202715, y: -1.9279118, z: -10.080824}
-        LocalHandleB: {x: -7.8247557, y: 1.9279118, z: 6.460908}
-        nodeA:
-          rid: 4858626814396072006
-        nodeB:
-          rid: 4858626814396072008
-        settings:
-          ForwardLaneCount: 1
-          BackwardLaneCount: 1
-          MedianStripWidth: 0.1
-          LaneWidth: 0.5
-    - rid: 4858626814396072008
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: -10.007596, y: -7.711647, z: -11.328859}
-        links:
-        - rid: 4858626814396072007
-        - rid: 4858626814396072009
-    - rid: 4858626814396072009
-      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
-      data:
-        LocalHandleA: {x: 7.8247557, y: -1.9279118, z: -6.460908}
-        LocalHandleB: {x: -14.639336, y: 1.9279118, z: 13.299578}
-        nodeA:
-          rid: 4858626814396072008
-        nodeB:
-          rid: 4858626814396072010
-        settings:
-          ForwardLaneCount: 1
-          BackwardLaneCount: 9
-          MedianStripWidth: 0.1
-          LaneWidth: 0.00001
-    - rid: 4858626814396072010
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: 22.788692, y: -11.567471, z: -20.055079}
-        links:
-        - rid: 4858626814396072009
-        - rid: 4858626814396072011
-    - rid: 4858626814396072011
-      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
-      data:
-        LocalHandleA: {x: 14.639336, y: -1.9279118, z: -13.299578}
-        LocalHandleB: {x: -29.02111, y: 1.9279118, z: 2.1207695}
-        nodeA:
-          rid: 4858626814396072010
-        nodeB:
-          rid: 4858626814396072012
-        settings:
-          ForwardLaneCount: 8
-          BackwardLaneCount: 13
-          MedianStripWidth: 0.1
-          LaneWidth: 0.5
-    - rid: 4858626814396072012
-      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
-      data:
-        Position: {x: 40.121384, y: -15.423294, z: -55.724915}
-        links:
-        - rid: 4858626814396072011
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +535,128 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &933654527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933654528}
+  - component: {fileID: 933654529}
+  m_Layer: 0
+  m_Name: RoadElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &933654528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933654527}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.7, y: -43.2, z: -8.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &933654529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933654527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2563c9c8cdf5abf738a8489727007b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    ForwardLaneCount: 1
+    BackwardLaneCount: 6
+    MedianStripWidth: 3.4
+    LaneWidth: 2.58
+  rootNode:
+    rid: 4858627038197842010
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 4858627038197842010
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: -46.61084, y: 0, z: 86.89655}
+        links:
+        - rid: 4858627038197842013
+    - rid: 4858627038197842013
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -0.8511059, y: 0, z: -16.651903}
+        LocalHandleB: {x: 3.963931, y: 0, z: 54.341125}
+        nodeA:
+          rid: 4858627038197842010
+        nodeB:
+          rid: 4858627038197842014
+        settings:
+          rid: -2
+    - rid: 4858627038197842014
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 6.7447996, y: 0, z: -18.119995}
+        links:
+        - rid: 4858627038197842013
+        - rid: 4858627061764325485
+    - rid: 4858627061764325485
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -13.869432, y: 0, z: -145.62967}
+        LocalHandleB: {x: 41.022995, y: -0, z: -90.09714}
+        nodeA:
+          rid: 4858627038197842014
+        nodeB:
+          rid: 4858627061764325486
+        settings:
+          rid: 4858627065894142066
+    - rid: 4858627061764325486
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 70.534485, y: 1.0888058e-17, z: 19.630873}
+        links:
+        - rid: 4858627061764325485
+        - rid: 4858627065894142048
+    - rid: 4858627065894142048
+      type: {class: RoadConnection, ns: , asm: Assembly-CSharp}
+      data:
+        LocalHandleA: {x: -47.796547, y: 0, z: 104.97362}
+        LocalHandleB: {x: -109.27371, y: 0, z: -39.885483}
+        nodeA:
+          rid: 4858627061764325486
+        nodeB:
+          rid: 4858627065894142049
+        settings:
+          rid: -2
+    - rid: 4858627065894142049
+      type: {class: RoadNode, ns: , asm: Assembly-CSharp}
+      data:
+        Position: {x: 10.229892, y: 0, z: 184.64948}
+        links:
+        - rid: 4858627065894142048
+    - rid: 4858627065894142066
+      type: {class: RoadConnectionSettings, ns: , asm: Assembly-CSharp}
+      data:
+        ForwardLaneCount: 5
+        BackwardLaneCount: 12
+        MedianStripWidth: 3.4
+        LaneWidth: 2.58
 --- !u!1 &1578381328
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,8 +709,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 332476488}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1758821708
@@ -817,4 +774,5 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 8347277}
   - {fileID: 1578381330}
+  - {fileID: 933654528}
   - {fileID: 1758821710}

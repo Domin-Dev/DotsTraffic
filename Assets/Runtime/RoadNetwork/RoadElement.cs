@@ -1,10 +1,21 @@
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 public class RoadElement : MonoBehaviour
 {    
     public RoadConnectionSettings settings;
     [HideInInspector] [SerializeReference] public RoadNode rootNode = new RoadNode(Vector3.right,Vector3.left);
+    
+    public void ApplyToAllConnections()
+    {
+        rootNode.VisitEdges(x =>
+        {
+            var connection = x as RoadConnection;
+            if(connection != null)
+                connection.settings = null;
+        });
+    }
     public void ProjectToSurface()
     {
         if(transform.parent.TryGetComponent<SubSceneGenerator>(out var generator))

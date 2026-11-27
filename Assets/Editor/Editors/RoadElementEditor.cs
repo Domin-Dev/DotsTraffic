@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.ShortcutManagement;
 using UnityEngine;
@@ -32,10 +31,11 @@ public class RoadElementEditor : Editor
     private static RoadElement road;
     #endregion
  
-    private static bool openRoadEditorSettings = false;
+    #region EditorSettings
+    private static bool openEditorSettings = false;
     private static Editor roadEditorSettingsEditor;
     public static RoadEditorSettings roadEditorSettings;
-    private static bool addNewPoint = false;
+    #endregion
 
     private void OnEnable()
     {
@@ -70,11 +70,8 @@ public class RoadElementEditor : Editor
 
         Undo.undoRedoPerformed -= UpdateSelection;
     }
-    private void FocusChanged()
-    {
-        if(EditorWindow.focusedWindow?.GetType().Name != "InspectorWindow")
-            Deselect();       
-    }
+    
+    #region Scene GUI
     public void OnSceneGUI()
     { 
         Events();
@@ -85,12 +82,12 @@ public class RoadElementEditor : Editor
             road.rootNode.VisitEdges((ConnectionBase prev,RoadNode node,ConnectionBase connection) => 
             {
                 DrawCurve(prevPoints,prev,node,connection);
-                DisplayConnectionHandlers(connection);
+                DrawConnectionHandlers(connection);
             });
         else
             road.rootNode.VisitEdges((ConnectionBase prev,RoadNode node,ConnectionBase connection) => DrawCurve(prevPoints,prev,node,connection));
         
-        if(showNodeHandles) road.rootNode.VisitNodes((RoadNode node) => DisplayNodeHandles(node));
+        if(showNodeHandles) road.rootNode.VisitNodes((RoadNode node) => DrawNodeHandles(node));
 
         int temp;
         do
@@ -101,107 +98,10 @@ public class RoadElementEditor : Editor
         while(temp != prevPoints.Count);
         Handles.DrawAAPolyLine((prevPoints).ToArray());
     }
-    public override void OnInspectorGUI()
-    {      
-        RoadElement road = (RoadElement)target;
-        DrawEditorOptions();
-        DrawProperties();
-      //  DrawDefaultInspector();
-
-        if (CustomEditorUtility.SingleLineButton("Add Point",CustomEditorIcons.Add))
-            RecordAction(road,"Add road point",road.AddPoint);
-        DrawRoadSettings();
-    }
-    private void DrawProperties()
+    private void FocusChanged()
     {
-        serializedObject.Update();
-
-        bool selectedInEdit = IsSelected && selectedType == typeof(RoadConnection);
-        RoadConnectionSettings[] connectionSettings = selectedInEdit ? 
-            selectedObjects.Cast<RoadConnection>().Select(x => x.settings).ToArray() : 
-            new []{road.settings};
-
-        EditorGUILayout.BeginHorizontal();
-        if (CustomEditorUtility.SingleLineButton("One-way",CustomEditorIcons.UpArrow))
-            RecordAction(road,"One-way",() => { foreach (var item in connectionSettings)item.ChangeToOneWayRoad();});
-        
-        if (CustomEditorUtility.SingleLineButton("Change Direction",CustomEditorIcons.ChangeDirection))
-            RecordAction(road,"Change Direction",() => { foreach (var item in connectionSettings)item.ChangeDirection();});
- 
-        if (CustomEditorUtility.SingleLineButton("Project to Surface",CustomEditorIcons.ProjectToSurface))
-            RecordAction(road,"Project to Surface",road.ProjectToSurface);
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
-
-        EditorGUI.BeginChangeCheck();
-
-        CustomEditorUtility.IntSlider(connectionSettings,
-        "Forward Lane Count",(x,v) => x.ForwardLaneCount = v,(x) => x.ForwardLaneCount,0,20);
-        CustomEditorUtility.IntSlider(connectionSettings,
-        "Backward Lane Count",(x,v) => x.BackwardLaneCount = v,(x) => x.BackwardLaneCount,0,20);
-        
-        CustomEditorUtility.FloatField(connectionSettings,
-        "Median Strip Width",(x,v) => x.MedianStripWidth = v,(x) => x.MedianStripWidth,0);        
-        CustomEditorUtility.FloatField(connectionSettings,
-        "Lane Width",(x,v) => x.LaneWidth = v,(x) => x.LaneWidth,0.00001f);
-
-        EditorGUI.showMixedValue = false;
-        EditorGUILayout.Separator();
-        if(!selectedInEdit)
-        {
-            if (CustomEditorUtility.SingleLineButton("Apply to all connections",CustomEditorIcons.ProjectToSurface))
-                RecordAction(road,"Apply to all connections",road.ProjectToSurface);
-        }
-
-        if (EditorGUI.EndChangeCheck())
-        {
-            Undo.RegisterCompleteObjectUndo(road,"Value Changed");
-            EditorUtility.SetDirty(target);
-        }
-        serializedObject.ApplyModifiedProperties();
-    }
-
-    
-
-
-    private void DrawRoadSettings()
-    {
-        EditorGUILayout.Separator();
-        using (var check = new EditorGUI.ChangeCheckScope())
-        {
-            openRoadEditorSettings = EditorGUILayout.InspectorTitlebar(openRoadEditorSettings, roadEditorSettings);
-            if (openRoadEditorSettings)
-            {
-                CreateCachedEditor(roadEditorSettings, null, ref roadEditorSettingsEditor);
-                roadEditorSettingsEditor.OnInspectorGUI();
-            }
-            if(check.changed)
-            {
-                SceneView.RepaintAll();
-            }
-        }
-    }      
-    private void DrawEditorOptions()
-    {
-        EditorGUILayout.BeginHorizontal();
-        GUIStyle toggleButton = new GUIStyle(GUI.skin.button);
-
-        showPositionHandle = DrawToggle(toggleButton,"Show Position Handle",showPositionHandle);
-        showConnectionHandles = DrawToggle(toggleButton,"Show Connection Handles",showConnectionHandles);
-        showNodeHandles = DrawToggle(toggleButton,"Show Node Handles",showNodeHandles);
-
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Separator();
-    }
-    private bool DrawToggle(GUIStyle toggleButton,string text,bool currentValue)
-    {
-        bool newValue = GUILayout.Toggle(currentValue,text, toggleButton);
-        if(newValue != currentValue)
-        {
-            currentValue = newValue;
-            SceneView.RepaintAll();
-        }    
-        return currentValue;
+        if(EditorWindow.focusedWindow?.GetType().Name != "InspectorWindow")
+            Deselect();       
     }
     private void Events()
     {
@@ -222,44 +122,6 @@ public class RoadElementEditor : Editor
                     break;
             }
         }
-
-     //   if(addNewPoint)
-      //  {
-            //addNewPoint = false;
-        //}
-    }
-    private void SelectObject(ISelectable obj)
-    {
-        selectedObjects.Clear();
-        selectedObjects.Add(obj);
-        selectedType = obj.GetType();
-        UpdateSelection();
-        EditorUtility.SetDirty(target);
-    }
-
-    private void SelectMultipleObjects(ISelectable obj)
-    {
-        selectedHandleMode = HandleMode.Free;
-        var newType = obj.GetType();
-        if(newType != selectedType)
-        {
-            selectedObjects.Clear();
-            selectedType = newType;
-        }
-        selectedObjects.Add(obj);
-        UpdateSelection();
-        EditorUtility.SetDirty(target);
-    }
-    private void Deselect()
-    {
-        selectedObjects.Clear();
-        selectedType = null;
-        UpdateSelection();
-        EditorUtility.SetDirty(target);
-    }
-    private void UpdateSelection()
-    {
-        OnSelectionChanged?.Invoke(selectedObjects,selectedType);
     }
     private void DrawCurve(List<Vector3> prevPoints,ConnectionBase prev,RoadNode node,ConnectionBase connection,float offset = 2.0f)
     {
@@ -287,7 +149,7 @@ public class RoadElementEditor : Editor
        // Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, -road.HalfMedianStripWidth , 30).ToArray());
       //  Handles.DrawAAPolyLine(BezierUtility.GetOffsetBezier(startPoint, startHandler, endHandler, endPoint,prevStartHandler,nextEndHandler, road.HalfMedianStripWidth, 30).ToArray());
     }
-    private void DisplayNodeHandles(RoadNode roadPoint)
+    private void DrawNodeHandles(RoadNode roadPoint)
     {    
         Vector3 worldPoint = road.transform.TransformPoint(roadPoint.Position);
         float size = HandleUtility.GetHandleSize(worldPoint) * roadEditorSettings.RoadPointSize;
@@ -328,7 +190,7 @@ public class RoadElementEditor : Editor
             }
         }
     }
-    private void DisplayConnectionHandlers(ConnectionBase connectionBase)
+    private void DrawConnectionHandlers(ConnectionBase connectionBase)
     {
         Vector3 worldPoint = connectionBase.Bezier(road,0.5f);
         float size = HandleUtility.GetHandleSize(worldPoint) * roadEditorSettings.ConnectionPointSize;
@@ -352,108 +214,179 @@ public class RoadElementEditor : Editor
         }
         
     }
+    #endregion
 
-    
+    #region Inspector GUI
+    public override void OnInspectorGUI()
+    {      
+        RoadElement road = (RoadElement)target;
+        DrawEditorOptions();
+        DrawProperties();
+      //  DrawDefaultInspector();
 
-    // private void PrintLines(RoadElement road)
-    // {
-    //     if(road.Points.Count == 0) return;
+        if (CustomEditorUtility.SingleLineButton("Add Point",CustomEditorIcons.Add))
+            RecordAction(road,"Add road point",road.AddPoint);
+        DrawEditorSettings();
+    }
+    private void DrawProperties()
+    {
+        serializedObject.Update();
+
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        DrawProperties("Road Element",road.settings);
+        if(CustomEditorUtility.SingleLineButton("Apply to all connections",CustomEditorIcons.ProjectToSurface))
+            RecordAction(road,"Apply to all connections",road.ApplyToAllConnections);
+        EditorGUILayout.EndVertical();
+
+        DrawConnectionSettings();
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RegisterCompleteObjectUndo(road,"Value Changed");
+            EditorUtility.SetDirty(target);
+        }
+        serializedObject.ApplyModifiedProperties();
+    }
+    private void DrawConnectionSettings()
+    {
+        if(IsSelected && selectedType == typeof(RoadConnection))
+        {
+            EditorGUILayout.Separator();
+            EditorGUILayout.Separator();
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+            var connections = selectedObjects.Cast<RoadConnection>();
+            bool isNull = connections.First().settings == null;
+            bool mixedValue = connections.Any(x => (x.settings == null) != isNull);
+            EditorGUI.showMixedValue = mixedValue;
+
+            EditorGUI.BeginChangeCheck();
+            bool toggle = EditorGUILayout.ToggleLeft(new GUIContent("Override Road Element Settings"),!isNull);
+            if(EditorGUI.EndChangeCheck())
+            {
+                if(toggle && !mixedValue)
+                {
+                    foreach(var item in connections)
+                        if(item.settings == null) item.settings = new RoadConnectionSettings(road.settings);
+                }
+                else
+                {
+                    foreach(var item in connections)
+                        item.settings = null;
+                }
+            }
+
+            EditorGUI.showMixedValue = false;
+            DrawProperties("Selected Connection",connections.Where(x => x.settings != null).Select(x => x.settings).ToArray());
+            EditorGUILayout.EndVertical();
+        }
+    }
+    private void DrawProperties(string labelField,params RoadConnectionSettings[] connectionSettings )
+    {
+        EditorGUILayout.LabelField(labelField,EditorStyles.boldLabel);
+        EditorGUILayout.BeginHorizontal();
+
+        if(connectionSettings == null || connectionSettings.Length == 0)
+        {
+            EditorGUI.BeginDisabledGroup(true);
+            connectionSettings = new []{road.settings};
+        }
+
+        if (CustomEditorUtility.SingleLineButton("One-way",CustomEditorIcons.UpArrow))
+            RecordAction(road,"One-way",() => { foreach (var item in connectionSettings)item.ChangeToOneWayRoad();});
         
-    //     Vector3? nextStartOffset = null;
-    //     Vector3 startNode = road.transform.TransformPoint(road.Points[0].Position);
-    //     Vector3 previousNodePosition;
+        if (CustomEditorUtility.SingleLineButton("Change Direction",CustomEditorIcons.ChangeDirection))
+            RecordAction(road,"Change Direction",() => { foreach (var item in connectionSettings)item.ChangeDirection();});
+ 
+     //   if (CustomEditorUtility.SingleLineButton("Project to Surface",CustomEditorIcons.ProjectToSurface))
+       //     RecordAction(road,"Project to Surface",road.ProjectToSurface);
+       
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 
-    //     if(road.Points.Count > 1) 
-    //         previousNodePosition = startNode -(road.transform.TransformPoint(road.Points[1].Position) - startNode);
-    //     else
-    //         previousNodePosition = startNode + Vector3.right;
+        EditorGUI.BeginChangeCheck();
 
-    //     for (int i = 0; i < road.Points.Count - 1; i++)
-    //     {
-    //         Vector3 a = road.transform.TransformPoint(road.Points[i].Position);
-    //         Vector3 b = road.transform.TransformPoint(road.Points[i + 1].Position);
-          
-    //         Vector3 middle = (a + b) * 0.5f;
-    //         float size = HandleUtility.GetHandleSize(middle) * 0.1f;   
-    //         Vector3 nextNodeDirection = b - a;
-
-    //         Vector3 offset1 = Vector3.Cross(Vector3.up, nextNodeDirection).normalized;
-    //         Vector3 startOffset = nextStartOffset.HasValue ? nextStartOffset.Value : offset1;
-    //         Vector3 endOffset = Vector3.zero;
-
-    //         if(i < road.Points.Count - 2)
-    //         {
-    //             Vector3 c = road.transform.TransformPoint(road.Points[i + 2].Position);  
-    //             Vector3 offset2 = Vector3.Cross(Vector3.up, c - b).normalized;
-    //             // if(LineIntersectionXZ(a + startOffset,b + offset1,b + offset2,c + offset2,out var news))
-    //             // {
-    //             //     news.y = b.y;
-    //             //     endOffset = news - b; 
-    //             //     nextStartOffset = endOffset;
-    //             // }
-    //         }
-    //         else
-    //             endOffset = offset1;
-
-
-    //         startOffset = startOffset.normalized;
-    //         endOffset = endOffset.normalized;
-
-    //         Vector3 startMedianOffset = startOffset * road.HalfMedianStripWidth;
-    //         Vector3 endMedianOffset = endOffset * road.HalfMedianStripWidth;
-
-    //         Handles.color = roadEditorSettings.MedianStripColor;
-    //         Handles.DrawLine(a + startMedianOffset,b + endMedianOffset);
-    //         Handles.DrawLine(a - startMedianOffset,b - endMedianOffset);
-
-    //         Handles.color = roadEditorSettings.LaneColor;
-    //         Handles.DrawLine(a + startMedianOffset + road.ForwardRoadwayWidth * startOffset,b + endMedianOffset  + road.ForwardRoadwayWidth * endOffset);
-    //         Handles.DrawLine(a - startMedianOffset - road.BackwardRoadwayWidth * startOffset,b - endMedianOffset  - road.BackwardRoadwayWidth * endOffset);
-
-    //         ShowEditButtons(i,middle);
-            
-    //         PrintArrows(road,a,nextNodeDirection,previousNodePosition - a,startOffset,startMedianOffset);
-    //         previousNodePosition = a;
-    //     }
-
-    //     Vector3 last = road.transform.TransformPoint(road.Points[road.Points.Count -1].Position);
-    //DoSomething     Vector3 offset = Vector3.Cross(Vector3.up,last - previousNodePosition).normalized;
-    //     PrintArrows(road,last,-(previousNodePosition - last),previousNodePosition - last,offset,offset * road.HalfMedianStripWidth);
-    // }
-    // private void ShowEditButtons(int currentIndexPoint,Vector3 middlePoint)
-    // {
-    //     if(showEditButtons)
-    //     {         
-    //         Handles.BeginGUI(); 
-    //         Vector2 guiPosition = HandleUtility.WorldToGUIPoint(middlePoint);
-    //         GUIStyle style = new GUIStyle(GUI.skin.button)
-    //         {
-    //             fontSize = 14,
-    //             fontStyle = FontStyle.Bold
-    //         };
-            
-    //         if (GUI.Button(new Rect(guiPosition.x - 12, guiPosition.y - 12, 24, 24),"+",style))
-    //         {
-    //             Vector3 localPoint = road.transform.InverseTransformPoint(middlePoint);
-    //             RecordAction(road,"Add road point",() => {road.Points.Insert(currentIndexPoint + 1, new RoadNode(localPoint));});
-    //         }
-    //         Handles.EndGUI();
-    //     }
-    // }
-    // private void PrintArrows(RoadElement road,Vector3 nodePosition,Vector3 nextNodeDir,Vector3 previousNodeDir,Vector3 offsetDirection,Vector3 medianOffset)
-    // {
-    //     float size = HandleUtility.GetHandleSize(nodePosition) * 0.4f;
-    //     Handles.color = roadEditorSettings.ForwardLaneColor;
-    //     for(int i = 0; i < road.ForwardLaneCount; i++)
-    //         Handles.ArrowHandleCap(0,nodePosition + medianOffset + offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(nextNodeDir),size, EventType.Repaint); 
+        CustomEditorUtility.IntSlider(connectionSettings,
+        "Forward Lane Count",(x,v) => x.ForwardLaneCount = v,(x) => x.ForwardLaneCount,0,20);
+        CustomEditorUtility.IntSlider(connectionSettings,
+        "Backward Lane Count",(x,v) => x.BackwardLaneCount = v,(x) => x.BackwardLaneCount,0,20);
         
-    //     Handles.color = roadEditorSettings.BackwardLaneColor;
-    //     for(int i = 0; i < road.BackwardLaneCount; i++)
-    //         Handles.ArrowHandleCap(0,nodePosition - medianOffset - offsetDirection * (i + 0.5f) * road.LaneWidth , Quaternion.LookRotation(previousNodeDir),size, EventType.Repaint);       
-    // }
+        CustomEditorUtility.FloatField(connectionSettings,
+        "Median Strip Width",(x,v) => x.MedianStripWidth = v,(x) => x.MedianStripWidth,0);        
+        CustomEditorUtility.FloatField(connectionSettings,
+        "Lane Width",(x,v) => x.LaneWidth = v,(x) => x.LaneWidth,0.00001f);
 
+        EditorGUI.EndDisabledGroup();
+        EditorGUI.showMixedValue = false;
+    }
+    private void DrawEditorSettings()
+    {
+        EditorGUILayout.Separator();
+        using (var check = new EditorGUI.ChangeCheckScope())
+        {
+            openEditorSettings = EditorGUILayout.InspectorTitlebar(openEditorSettings, roadEditorSettings);
+            if (openEditorSettings)
+            {
+                CreateCachedEditor(roadEditorSettings, null, ref roadEditorSettingsEditor);
+                roadEditorSettingsEditor.OnInspectorGUI();
+            }
+            if(check.changed)
+            {
+                SceneView.RepaintAll();
+            }
+        }
+    }      
+    private void DrawEditorOptions()
+    {
+        EditorGUILayout.BeginHorizontal();
+        GUIStyle toggleButton = new GUIStyle(GUI.skin.button);
 
+        EditorGUI.BeginChangeCheck();
+        showPositionHandle = GUILayout.Toggle(showPositionHandle,"Show Position Handle",toggleButton);
+        showConnectionHandles = GUILayout.Toggle(showConnectionHandles,"Show Connection Handles",toggleButton);
+        showNodeHandles = GUILayout.Toggle(showNodeHandles,"Show Node Handles",toggleButton);
+        if(EditorGUI.EndChangeCheck())
+            SceneView.RepaintAll();
 
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Separator();
+    }
+    #endregion
+
+    #region Selection
+    private void SelectObject(ISelectable obj)
+    {
+        selectedObjects.Clear();
+        selectedObjects.Add(obj);
+        selectedType = obj.GetType();
+        UpdateSelection();
+        EditorUtility.SetDirty(target);
+    }
+    private void SelectMultipleObjects(ISelectable obj)
+    {
+        selectedHandleMode = HandleMode.Free;
+        var newType = obj.GetType();
+        if(newType != selectedType)
+        {
+            selectedObjects.Clear();
+            selectedType = newType;
+        }
+        selectedObjects.Add(obj);
+        UpdateSelection();
+        EditorUtility.SetDirty(target);
+    }
+    private void Deselect()
+    {
+        selectedObjects.Clear();
+        selectedType = null;
+        UpdateSelection();
+        EditorUtility.SetDirty(target);
+    }
+    private void UpdateSelection()
+    {
+        OnSelectionChanged?.Invoke(selectedObjects,selectedType);
+    }
+    #endregion
 
     #region  Handles
     private void ChangeHandleMode(HandleMode handleMode)
@@ -491,6 +424,8 @@ public class RoadElementEditor : Editor
         return currentHandle2;
     }
     #endregion
+    
+    #region  Actions
     private void ChangePosition(RoadNode roadPoint,Vector3 newPosition)
     {
         RecordAction(road,"Move road point",() =>
@@ -556,4 +491,5 @@ public class RoadElementEditor : Editor
         if(selectedObjects.Count == 1 && selectedType == typeof(RoadNode))
             road.CreateIntersection(selectedObjects[0] as RoadNode);
     }
+    #endregion
 }
